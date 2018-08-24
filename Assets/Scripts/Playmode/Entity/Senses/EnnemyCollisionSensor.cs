@@ -4,7 +4,7 @@ namespace Playmode.Entity.Senses
 {
     public delegate void EnnemyCollisionSensorEventHandler(EnnemyController ennemy);
     
-    public class EnemyCollisionSensor : EnnemySensor
+    public class EnnemyCollisionSensor : EnnemySensor
     {
         public event EnnemyCollisionSensorEventHandler OnCollision;
 

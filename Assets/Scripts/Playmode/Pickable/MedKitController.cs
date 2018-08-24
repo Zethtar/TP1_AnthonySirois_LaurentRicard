@@ -6,18 +6,17 @@ using UnityEngine;
 
 namespace Playmode.Pickable
 {
-    public class WeaponPickableController : PickableController
-    {
-        [Header("Values")] [SerializeField] private GameObject weaponPrefab;
-        
+    public class MedKitController : PickableController {
+    
+        [Header("Values")] [SerializeField] private int healthPointRestored = 75;
+
         protected override void OnCollision(EnnemyController ennemy)
         {
-            ennemy.Equip(Instantiate(
-                weaponPrefab,
-                Vector3.zero,
-                Quaternion.identity));
+            ennemy.Heal(healthPointRestored);
             
             destroyer.Destroy();
         }
     }
 }
+
+

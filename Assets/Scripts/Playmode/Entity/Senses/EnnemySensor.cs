@@ -1,52 +1,14 @@
 ﻿using System.Collections.Generic;
 using Playmode.Ennemy;
+using UnityEditor.Compilation;
 using UnityEngine;
 
 namespace Playmode.Entity.Senses
 {
-    public delegate void EnnemySensorEventHandler(EnnemyController ennemy);
-
-    public class EnnemySensor : MonoBehaviour
+    public abstract class EnnemySensor : MonoBehaviour
     {
-        private ICollection<EnnemyController> ennemiesInSight;
+        public abstract void TriggerEnter(EnnemyController ennemy);
 
-        public event EnnemySensorEventHandler OnEnnemySeen;
-        public event EnnemySensorEventHandler OnEnnemySightLost;
-
-        public IEnumerable<EnnemyController> EnnemiesInSight => ennemiesInSight;
-
-        private void Awake()
-        {
-            InitializeComponent();
-        }
-
-        private void InitializeComponent()
-        {
-            ennemiesInSight = new HashSet<EnnemyController>();
-        }
-
-        public void See(EnnemyController ennemy)
-        {
-            ennemiesInSight.Add(ennemy);
-
-            NotifyEnnemySeen(ennemy);
-        }
-
-        public void LooseSightOf(EnnemyController ennemy)
-        {
-            ennemiesInSight.Remove(ennemy);
-
-            NotifyEnnemySightLost(ennemy);
-        }
-
-        private void NotifyEnnemySeen(EnnemyController ennemy)
-        {
-            if (OnEnnemySeen != null) OnEnnemySeen(ennemy);
-        }
-
-        private void NotifyEnnemySightLost(EnnemyController ennemy)
-        {
-            if (OnEnnemySightLost != null) OnEnnemySightLost(ennemy);
-        }
+        public abstract void TriggerExit(EnnemyController ennemy);
     }
 }

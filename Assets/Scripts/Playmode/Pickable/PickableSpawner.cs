@@ -10,7 +10,9 @@ namespace Playmode.Pickable
 {
 	public class PickableSpawner : MonoBehaviour 
 	{
-		[SerializeField] private GameObject pickablePrefab;
+		[SerializeField] private GameObject medKitPrefab;
+		[SerializeField] private GameObject uziPrefab;
+		[SerializeField] private GameObject shotgunPrefab;
 		[SerializeField] private float spawnDelayInSeconds = 5f;
 
 		private void Awake()
@@ -20,28 +22,45 @@ namespace Playmode.Pickable
 		
 		private void ValidateSerialisedFields()
 		{
-			if (pickablePrefab == null)
-				throw new ArgumentException("Can't spawn null pickable prefab.");
+			if (medKitPrefab == null)
+				throw new ArgumentException("Can't spawn null medKit prefab.");
+			if (uziPrefab == null)
+				throw new ArgumentException("Can't spawn null uzi prefab.");
+			if (shotgunPrefab == null)
+				throw new ArgumentException("Can't spawn null shotgun prefab.");
 			if (transform.childCount <= 0)
 				throw new ArgumentException("Can't spawn pickables whitout spawn points. " +
 				                            "Create chilldrens for this GameObject as spawn points.");
 		}
 
-		private void SpawnPickable(Vector3 position, PickableType type)
+		private void SpawnPickable(Vector3 position, GameObject prefab)
 		{
 			Debug.Log("Pickable spawned");
-			
-			Instantiate(pickablePrefab, position, Quaternion.identity)
-				.GetComponentInChildren<PickableController>()
-				.Configure(type);
+
+			Instantiate(prefab, position, Quaternion.identity);
 		}
 
 		private void SpawnRandomPickable()
 		{
 			var position = transform.GetChild(Random.Range(0, transform.childCount - 1)).position;
-			var type = (PickableType)Random.Range(0, (int)PickableType.TotalType);
 
-			SpawnPickable(position, type);
+			GameObject prefab;
+			switch ((PickableType)Random.Range(0, (int)PickableType.TotalType - 1))
+			{
+				case PickableType.Shotgun:
+					prefab = shotgunPrefab;
+					break;
+				
+				case PickableType.Uzi :
+					prefab = uziPrefab;
+					break;
+				
+				default: //case PickableType.MedicalKit
+					prefab = medKitPrefab;
+					break;
+			}
+
+			SpawnPickable(position, prefab);
 		}
 		
 		private IEnumerator SpawnPickableRoutine()
