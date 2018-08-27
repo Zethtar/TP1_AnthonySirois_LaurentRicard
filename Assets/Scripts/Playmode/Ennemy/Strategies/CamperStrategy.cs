@@ -36,7 +36,10 @@ namespace Playmode.Ennemy.Strategies
         {
             //handController.AimTowards(ennemyTarget.transform.position);
             mover.RotateToTarget(ennemyTarget.transform.position);
-            mover.MoveToTarget(ennemyTarget.transform.position);
+            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.position)) > 3)
+            {
+                mover.MoveToTarget(ennemyTarget.transform.position);
+            }
             handController.Use();
         }
 
