@@ -11,7 +11,8 @@ namespace Playmode.Ennemy
         private static readonly Color[] DefaultColors =
         {
             Color.white, Color.black, Color.blue, Color.cyan, Color.green,
-            Color.magenta, Color.red, Color.yellow, new Color(255, 125, 0, 255)
+            Color.magenta, Color.red, Color.yellow, new Color(255, 125, 0, 255),
+            Color.grey, new Color(125, 255, 46, 255), new Color(125, 0, 125),  
         };
 
         private static readonly EnnemyStrategy[] DefaultStrategies =
@@ -61,9 +62,13 @@ namespace Playmode.Ennemy
 
         private void SpawnEnnemy(Vector3 position, EnnemyStrategy strategy, Color color)
         {
-            Instantiate(ennemyPrefab, position, Quaternion.identity)
-                .GetComponentInChildren<EnnemyController>()
+            GameObject ennemy = Instantiate(ennemyPrefab, position, Quaternion.identity);
+            ennemy.GetComponentInChildren<EnnemyController>()
                 .Configure(strategy, color);
+
+            var angle = Vector3.Angle(Vector3.up, Vector3.zero - position);
+            angle = position.x > 0 ? angle : 360 - angle;
+            ennemy.transform.Rotate(Vector3.forward, angle);
         }
     }
 }

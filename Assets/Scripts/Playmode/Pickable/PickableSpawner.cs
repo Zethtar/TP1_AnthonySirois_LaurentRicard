@@ -77,7 +77,30 @@ namespace Playmode.Pickable
 		private void OnEnable()
 		{
 			StartCoroutine(SpawnPickableRoutine());
+
 			
+			for (int i = 0; i < transform.childCount; i++)
+			{
+				GameObject prefab;
+				var position = transform.GetChild(i).position;
+				
+				switch ((PickableType)Random.Range(0, (int)PickableType.TotalType))
+				{
+					case PickableType.Shotgun:
+						prefab = shotgunPrefab;
+						break;
+            				
+					case PickableType.Uzi :
+						prefab = uziPrefab;
+						break;
+            				
+					default: //case PickableType.MedicalKit
+						prefab = medKitPrefab;
+						break;
+				}
+				
+				SpawnPickable(position, prefab);
+			}
 		}
 	
 		private void OnDisable()
