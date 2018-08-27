@@ -34,7 +34,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4120258227031048}
-  - component: {fileID: 114121024674043932}
+  - component: {fileID: 114526226165238454}
   m_Layer: 0
   m_Name: Control
   m_TagString: Untagged
@@ -69,7 +69,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114121024674043932
+--- !u!114 &114526226165238454
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -77,11 +77,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1190627731413432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c94bdc5e30d40d0b8ac80c5d43ecaea, type: 3}
+  m_Script: {fileID: 11500000, guid: 078efed76ff04bd9a83c28a894004716, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1399810628277264, guid: 5b3563603dcbbce449eb771ff30aba92,
     type: 2}
   fireDelayInSeconds: 0.2
-  nbBullets: 1
-  angleBetweenBullets: 0
+  bulletsBaseDamage: 5
+  weaponType: 1
+  spread: 10

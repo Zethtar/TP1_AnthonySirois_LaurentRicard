@@ -12,7 +12,7 @@ namespace Playmode.Pickable
 	public abstract class PickableController : MonoBehaviour 
 	{		
 		protected Destroyer destroyer;
-		protected EnnemyCollisionSensor ennemyCollisionSensor;
+		private EnnemyCollisionSensor ennemyCollisionSensor;
 
 		private void Awake()
 		{
@@ -38,7 +38,6 @@ namespace Playmode.Pickable
 		{
 			destroyer = GetComponent<RootDestroyer>();
 			ennemyCollisionSensor = transform.root.GetComponentInChildren<EnnemyCollisionSensor>();
-
 		}
 
 		protected abstract void OnCollision(EnnemyController ennemy);

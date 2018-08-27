@@ -164,6 +164,8 @@ namespace Playmode.Ennemy
 
         public void Equip(GameObject weapon)
         {
+            Debug.Log("I equipe a new weapon");
+            
             handController.Hold(weapon);
         }
     }

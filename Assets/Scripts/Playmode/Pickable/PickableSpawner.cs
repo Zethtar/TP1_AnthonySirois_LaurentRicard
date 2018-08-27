@@ -35,8 +35,6 @@ namespace Playmode.Pickable
 
 		private void SpawnPickable(Vector3 position, GameObject prefab)
 		{
-			Debug.Log("Pickable spawned");
-
 			Instantiate(prefab, position, Quaternion.identity);
 		}
 
@@ -47,16 +45,16 @@ namespace Playmode.Pickable
 			GameObject prefab;
 			switch ((PickableType)Random.Range(0, (int)PickableType.TotalType - 1))
 			{
-				case PickableType.Shotgun:
-					prefab = shotgunPrefab;
-					break;
+				//case PickableType.Shotgun:
+				//	prefab = shotgunPrefab;
+				//	break;
 				
 				case PickableType.Uzi :
 					prefab = uziPrefab;
 					break;
 				
 				default: //case PickableType.MedicalKit
-					prefab = medKitPrefab;
+					prefab = uziPrefab;
 					break;
 			}
 

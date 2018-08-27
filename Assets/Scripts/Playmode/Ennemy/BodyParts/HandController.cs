@@ -1,6 +1,7 @@
 ﻿using System;
 using Playmode.Movement;
 using Playmode.Weapon;
+using Playmode.Weapon.Types;
 using UnityEngine;
 
 namespace Playmode.Ennemy.BodyParts
@@ -24,10 +25,19 @@ namespace Playmode.Ennemy.BodyParts
         {
             if (gameObject != null)
             {
-                gameObject.transform.parent = transform;
-                gameObject.transform.localPosition = Vector3.zero;
+                if (weapon == null || gameObject.GetComponentInChildren<WeaponController>().WeaponType !=
+                    weapon.WeaponType) //todo you were here
+                {
+                    gameObject.transform.parent = transform;
+                    gameObject.transform.localPosition = Vector3.zero;
+                    gameObject.transform.rotation = transform.rotation;
                 
-                weapon = gameObject.GetComponentInChildren<WeaponController>();
+                    weapon = gameObject.GetComponentInChildren<WeaponController>();
+                }
+                else
+                {
+                    weapon.Upgrade();
+                }    
             }
             else
             {

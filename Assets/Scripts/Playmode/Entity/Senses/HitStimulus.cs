@@ -7,6 +7,17 @@ namespace Playmode.Entity.Senses
     {
         [Header("Behaviour")] [SerializeField] private int hitPoints = 10;
 
+        public int HitPoints 
+        {
+            set
+            {
+                if (value >= 0)
+                {
+                    hitPoints = value;
+                }
+            }
+        }
+
         private void Awake()
         {
             ValidateSerializeFields();
