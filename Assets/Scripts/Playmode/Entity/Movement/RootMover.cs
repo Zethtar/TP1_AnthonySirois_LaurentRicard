@@ -40,7 +40,7 @@ namespace Playmode.Movement
         {
             Vector3 targetDir = target - transform.position;
             float angle = Vector3.SignedAngle(targetDir, transform.up, transform.forward);
-    
+
             if (angle < -1 || angle > 1)
             {
                 Rotate(angle);

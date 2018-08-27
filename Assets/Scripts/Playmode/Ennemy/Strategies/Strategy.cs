@@ -61,5 +61,6 @@ public class Strategy : IEnnemyStrategy
         }
         mover.RotateToTarget(roamingTarget);
         mover.MoveToTarget(roamingTarget);
+
     }
 }
