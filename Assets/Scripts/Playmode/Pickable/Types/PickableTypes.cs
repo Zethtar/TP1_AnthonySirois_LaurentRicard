@@ -5,8 +5,8 @@
         MedicalKit = 0,
         Shotgun,
         Uzi,
-        Invincible,
-        TotalType
+        TotalType,
+        Invincible
     }
     
     

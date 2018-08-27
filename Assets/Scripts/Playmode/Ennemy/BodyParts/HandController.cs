@@ -26,7 +26,7 @@ namespace Playmode.Ennemy.BodyParts
             if (gameObject != null)
             {
                 if (weapon == null || gameObject.GetComponentInChildren<WeaponController>().WeaponType !=
-                    weapon.WeaponType) //todo you were here
+                    weapon.WeaponType)
                 {
                     gameObject.transform.parent = transform;
                     gameObject.transform.localPosition = Vector3.zero;

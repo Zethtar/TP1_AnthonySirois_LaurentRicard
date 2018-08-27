@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Playmode.Pickable.Types;
+using Playmode.Util.Values;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -43,22 +44,25 @@ namespace Playmode.Pickable
 			var position = transform.GetChild(Random.Range(0, transform.childCount - 1)).position;
 
 			GameObject prefab;
-			switch ((PickableType)Random.Range(0, (int)PickableType.TotalType - 1))
+			switch ((PickableType)Random.Range(0, (int)PickableType.TotalType))
 			{
-				//case PickableType.Shotgun:
-				//	prefab = shotgunPrefab;
-				//	break;
+				case PickableType.Shotgun:
+					prefab = shotgunPrefab;
+					break;
 				
 				case PickableType.Uzi :
 					prefab = uziPrefab;
 					break;
 				
 				default: //case PickableType.MedicalKit
-					prefab = uziPrefab;
+					prefab = medKitPrefab;
 					break;
 			}
 
-			SpawnPickable(position, prefab);
+			if (IsSpawnerIsEmpty(position))
+			{
+				SpawnPickable(position, prefab);
+			}
 		}
 		
 		private IEnumerator SpawnPickableRoutine()
@@ -72,12 +76,25 @@ namespace Playmode.Pickable
 		
 		private void OnEnable()
 		{
-			StartCoroutine(SpawnPickableRoutine());		
+			StartCoroutine(SpawnPickableRoutine());
+			
 		}
 	
 		private void OnDisable()
 		{
 			StopAllCoroutines();
+		}
+
+		private bool IsSpawnerIsEmpty(Vector3 position)
+		{
+			GameObject[] allMovableThings = GameObject.FindGameObjectsWithTag(Tags.Pickable);
+			foreach(GameObject current in allMovableThings)
+			{
+				if (current.transform.position == position)
+					return false;
+			}
+
+			return true;
 		}
 	}
 }

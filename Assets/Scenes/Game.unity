@@ -565,7 +565,7 @@ MonoBehaviour:
   uziPrefab: {fileID: 1909634759604922, guid: 2a369c7be7700254480b4712fae124b5, type: 2}
   shotgunPrefab: {fileID: 1867587776352502, guid: a5b4af24c56d6d143a202ce12ed99e97,
     type: 2}
-  spawnDelayInSeconds: 0.5
+  spawnDelayInSeconds: 5
 --- !u!4 &1594989758
 Transform:
   m_ObjectHideFlags: 0

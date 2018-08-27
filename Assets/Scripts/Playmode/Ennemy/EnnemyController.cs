@@ -135,7 +135,7 @@ namespace Playmode.Ennemy
 
         private void OnDeath()
         {
-            Debug.Log("R.I.P.");
+            Debug.Log("Dead");
 
             destroyer.Destroy();
         }
@@ -150,21 +150,16 @@ namespace Playmode.Ennemy
             Debug.Log("Enemy out of sight");
         }
 
-        private void OnPickup(PickableType type)
-        {
-            Debug.Log("I've picked up something");
-        }
-
         public void Heal(int hitPoints)
         {
-            Debug.Log("I feel better");
+            Debug.Log("Healed");
             
             health.Heal(hitPoints);
         }
 
         public void Equip(GameObject weapon)
         {
-            Debug.Log("I equipe a new weapon");
+            Debug.Log("New weapon");
             
             handController.Hold(weapon);
         }
