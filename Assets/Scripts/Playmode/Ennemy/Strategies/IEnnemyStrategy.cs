@@ -18,9 +18,9 @@ namespace Playmode.Ennemy.Strategies
         Camper
     }
 
-    public class IEnnemyStrategy
+    public interface IEnnemyStrategy
     {
-        abstract void Act();
+        void Act();
         void SetState(EnnemyState state);
         void SetEnnemyTarget(EnnemyController ennemyTarget);
         void SetWeaponTarget(WeaponController weaponTarget);
