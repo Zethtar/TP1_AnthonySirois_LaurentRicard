@@ -50,7 +50,7 @@ public class Strategy : IEnnemyStrategy
 
     protected bool IsTargetReached(Vector3 target)
     {
-        return (Vector3.Distance(mover.transform.root.position, target) < 0.1);
+        return ((Vector3.Distance(mover.transform.root.position, target)) < 0.1);
     }
 
     protected void Roaming()
