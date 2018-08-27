@@ -1,8 +1,13 @@
-﻿namespace Playmode.Ennemy.Strategies
+﻿
+using Playmode.Weapon;
+
+namespace Playmode.Ennemy.Strategies
 {
-    public interface IEnnemyStrategy
+    public enum EnnemyState
     {
-        void Act();
+        Idle,
+        Attacking,
+        Roaming
     }
 
     public enum EnnemyStrategy
@@ -12,4 +17,14 @@
         Cowboy,
         Camper
     }
+
+    public class IEnnemyStrategy
+    {
+        abstract void Act();
+        void SetState(EnnemyState state);
+        void SetEnnemyTarget(EnnemyController ennemyTarget);
+        void SetWeaponTarget(WeaponController weaponTarget);
+    }
+
+  
 }

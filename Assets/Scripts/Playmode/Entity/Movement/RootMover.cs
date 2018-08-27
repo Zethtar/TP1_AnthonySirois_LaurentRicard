@@ -23,12 +23,28 @@ namespace Playmode.Movement
             rootTransform.Translate(direction.normalized * speed * Time.deltaTime);
         }
 
+        public override void MoveToTarget(Vector3 target)
+        {
+            rootTransform.Translate((target - transform.root.position).normalized * speed * Time.deltaTime);
+        }
+
         public override void Rotate(float direction)
         {
             rootTransform.Rotate(
                 Vector3.forward,
                 (direction < 0 ? rotateSpeed : -rotateSpeed) * Time.deltaTime
             );
+        }
+
+        public override void RotateToTarget(Vector3 target)
+        {
+            Vector3 targetDir = target - transform.position;
+            float angle = Vector3.SignedAngle(targetDir, transform.up, transform.forward);
+    
+            if (angle < -1 || angle > 1)
+            {
+                Rotate(angle);
+            }
         }
     }
 }

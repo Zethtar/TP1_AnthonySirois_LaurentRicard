@@ -35,10 +35,9 @@ namespace Playmode.Ennemy.BodyParts
             }
         }
 
-        public void AimTowards(GameObject target)
+        public void AimTowards(Vector3 target)
         {
-            //TODO : Utilisez ce que vous savez des vecteurs pour implémenter cette méthode
-            throw new NotImplementedException();
+           
         }
 
         public void Use()
