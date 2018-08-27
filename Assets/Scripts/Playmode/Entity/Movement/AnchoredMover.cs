@@ -23,6 +23,11 @@ namespace Playmode.Movement
             transform.Translate(direction.normalized * speed * Time.deltaTime);
         }
 
+        public override void MoveToTarget(Vector3 target)
+        {
+            transform.Translate((target - transform.root.position).normalized * speed * Time.deltaTime);
+        }
+
         public override void Rotate(float direction)
         {
             transform.RotateAround(
@@ -30,6 +35,11 @@ namespace Playmode.Movement
                 Vector3.forward,
                 (direction < 0 ? rotateSpeed : -rotateSpeed) * Time.deltaTime
             );
+        }
+
+        public override void RotateToTarget(Vector3 target)
+        {
+
         }
     }
 }

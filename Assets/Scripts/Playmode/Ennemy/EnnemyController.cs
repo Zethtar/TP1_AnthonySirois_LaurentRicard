@@ -29,6 +29,9 @@ namespace Playmode.Ennemy
         private HitSensor hitSensor;
         private HandController handController;
 
+        private EnnemyState state;
+        private Vector3 target;
+
         private IEnnemyStrategy strategy;
 
         private void Awake()
@@ -70,8 +73,8 @@ namespace Playmode.Ennemy
             ennemySightSensor = rootTransform.GetComponentInChildren<EnnemySightSensor>();
             hitSensor = rootTransform.GetComponentInChildren<HitSensor>();
             handController = hand.GetComponent<HandController>();
-
-            strategy = new TurnAndShootStragegy(mover, handController);
+            strategy = new NormalStrategy(mover, handController);
+            strategy.SetState(EnnemyState.Roaming);
         }
 
         private void CreateStartingWeapon()
@@ -104,24 +107,32 @@ namespace Playmode.Ennemy
             health.OnDeath -= OnDeath;
         }
 
-        public void Configure(EnnemyStrategy strategy, Color color)
+        public void Configure(EnnemyStrategy newStrategy, Color color)
         {
             body.GetComponent<SpriteRenderer>().color = color;
             sight.GetComponent<SpriteRenderer>().color = color;
             
-            switch (strategy)
+            switch (newStrategy)
             {
                 case EnnemyStrategy.Careful:
                     typeSign.GetComponent<SpriteRenderer>().sprite = carefulSprite;
+                    strategy = new CarfulStrategy(mover, handController);
+                    strategy.SetState(EnnemyState.Roaming);
                     break;
                 case EnnemyStrategy.Cowboy:
                     typeSign.GetComponent<SpriteRenderer>().sprite = cowboySprite;
+                    strategy = new CowboyStrategy(mover, handController);
+                    strategy.SetState(EnnemyState.Roaming);
                     break;
                 case EnnemyStrategy.Camper:
                     typeSign.GetComponent<SpriteRenderer>().sprite = camperSprite;
+                    strategy = new CamperStrategy(mover, handController);
+                    strategy.SetState(EnnemyState.Roaming);
                     break;
                 default:
                     typeSign.GetComponent<SpriteRenderer>().sprite = normalSprite;
+                    strategy = new NormalStrategy(mover, handController);
+                    strategy.SetState(EnnemyState.Roaming);
                     break;
             }
         }
@@ -143,6 +154,7 @@ namespace Playmode.Ennemy
         private void OnEnnemySeen(EnnemyController ennemy)
         {
             Debug.Log("Enemy in sight");
+            strategy.SetEnnemyTarget(ennemy);
         }
 
         private void OnEnnemySightLost(EnnemyController ennemy)

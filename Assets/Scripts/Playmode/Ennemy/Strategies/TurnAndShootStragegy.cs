@@ -1,20 +1,18 @@
 ﻿using Playmode.Ennemy.BodyParts;
 using Playmode.Movement;
+using Playmode.Weapon;
+using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
 {
-    public class TurnAndShootStragegy : IEnnemyStrategy
+    public class TurnAndShootStragegy : Strategy
     {
-        private readonly Mover mover;
-        private readonly HandController handController;
 
-        public TurnAndShootStragegy(Mover mover, HandController handController)
+        public TurnAndShootStragegy(Mover mover, HandController handController) : base(mover, handController)
         {
-            this.mover = mover;
-            this.handController = handController;
         }
 
-        public void Act()
+        override public void Act()
         {
             mover.Rotate(Mover.Clockwise);
 

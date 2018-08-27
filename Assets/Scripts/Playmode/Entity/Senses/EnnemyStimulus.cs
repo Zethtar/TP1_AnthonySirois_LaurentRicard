@@ -1,4 +1,4 @@
-﻿using Playmode.Ennemy;
+﻿ using Playmode.Ennemy;
 using UnityEngine;
 
 namespace Playmode.Entity.Senses
