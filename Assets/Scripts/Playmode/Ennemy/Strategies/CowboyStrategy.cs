@@ -5,25 +5,14 @@ using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
 {
-    public class CowboyStrategy : IEnnemyStrategy
+    public class CowboyStrategy : Strategy
     {
-        private readonly Mover mover;
-        private readonly HandController handController;
-        private EnnemyController ennemyTarget;
-        private WeaponController weaponTarget;
-        private Vector3 roamingTarget;
-        private EnnemyState currentState;
-        private EnnemyState lastState = EnnemyState.Idle;
 
-        public CowboyStrategy(Mover mover, HandController handController)
+        public CowboyStrategy(Mover mover, HandController handController) : base(mover, handController)
         {
-            this.mover = mover;
-            this.handController = handController;
-            roamingTarget = GetRandomLocation();
-
         }
 
-        public void Act()
+        override public void Act()
         {
             if (ennemyTarget != null)
             {
@@ -39,44 +28,8 @@ namespace Playmode.Ennemy.Strategies
             }
             else if (currentState == EnnemyState.Roaming)
             {
-                Roaming();
+                base.Roaming();
             }
-        }
-
-        public void SetEnnemyTarget(EnnemyController ennemyTarget)
-        {
-            this.ennemyTarget = ennemyTarget;
-        }
-
-        public void SetWeaponTarget(WeaponController weaponTarget)
-        {
-            this.weaponTarget = weaponTarget;
-        }
-
-        public void SetState(EnnemyState state)
-        {
-            this.currentState = state;
-        }
-
-        private Vector3 GetRandomLocation()
-        {
-            Vector3 randomLocation = new Vector3(Random.Range(-17, 17), Random.Range(-10, 10), 0);
-            return randomLocation;
-        }
-
-        private bool IsTargetReached(Vector3 target)
-        {
-            return (Vector3.Distance(mover.transform.root.position, target) < 0.1);
-        }
-
-        private void Roaming()
-        {
-            if (IsTargetReached(roamingTarget))
-            {
-                roamingTarget = GetRandomLocation();
-            }
-            mover.RotateToTarget(roamingTarget);
-            mover.MoveToTarget(roamingTarget);
         }
 
         private void ChargeTheEnnemy(EnnemyController ennemyTarget)
