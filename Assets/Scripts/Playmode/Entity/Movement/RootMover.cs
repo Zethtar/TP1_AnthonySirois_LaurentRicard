@@ -25,7 +25,7 @@ namespace Playmode.Movement
 
         public override void MoveToTarget(Vector3 target)
         {
-            rootTransform.Translate((target - transform.root.position).normalized * speed * Time.deltaTime);
+            rootTransform.Translate((target - transform.root.position).normalized * speed * Time.deltaTime, Space.World);
         }
 
         public override void Rotate(float direction)
