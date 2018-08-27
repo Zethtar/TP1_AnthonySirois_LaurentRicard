@@ -12,7 +12,7 @@ namespace Playmode.Ennemy.Strategies
         {
         }
 
-        override public void Act()
+        public override void Act()
         {
             if (ennemyTarget != null)
             {
@@ -22,6 +22,7 @@ namespace Playmode.Ennemy.Strategies
             {
                 currentState = EnnemyState.Roaming;
             }
+            
             if (currentState == EnnemyState.Attacking)
             {
                 ChargeTheEnnemy(ennemyTarget);

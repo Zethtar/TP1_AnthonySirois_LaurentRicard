@@ -5,7 +5,6 @@ using Playmode.Entity.Destruction;
 using Playmode.Entity.Senses;
 using Playmode.Entity.Status;
 using Playmode.Movement;
-using Playmode.Pickable;
 using Playmode.Pickable.Types;
 using UnityEngine;
 
@@ -27,7 +26,6 @@ namespace Playmode.Ennemy
         private Mover mover;
         private Destroyer destroyer;
         private EnnemySightSensor ennemySightSensor;
-        private PickableSightSensor pickableSightSensor;
         private HitSensor hitSensor;
         private HandController handController;
 
@@ -73,7 +71,6 @@ namespace Playmode.Ennemy
 
             var rootTransform = transform.root;
             ennemySightSensor = rootTransform.GetComponentInChildren<EnnemySightSensor>();
-            pickableSightSensor = rootTransform.GetComponentInChildren<PickableSightSensor>();
             hitSensor = rootTransform.GetComponentInChildren<HitSensor>();
             handController = hand.GetComponent<HandController>();
             strategy = new NormalStrategy(mover, handController);
@@ -93,8 +90,6 @@ namespace Playmode.Ennemy
         {
             ennemySightSensor.OnEnnemySeen += OnEnnemySeen;
             ennemySightSensor.OnEnnemySightLost += OnEnnemySightLost;
-            pickableSightSensor.OnPickableSeen += OnPickableSeen;
-            pickableSightSensor.OnPickableSightLost += OnPickableSightLost;
             hitSensor.OnHit += OnHit;
             health.OnDeath += OnDeath;
         }
@@ -108,8 +103,6 @@ namespace Playmode.Ennemy
         {
             ennemySightSensor.OnEnnemySeen -= OnEnnemySeen;
             ennemySightSensor.OnEnnemySightLost -= OnEnnemySightLost;
-            pickableSightSensor.OnPickableSeen -= OnPickableSeen;
-            pickableSightSensor.OnPickableSightLost -= OnPickableSightLost;
             hitSensor.OnHit -= OnHit;
             health.OnDeath -= OnDeath;
         }
@@ -160,23 +153,17 @@ namespace Playmode.Ennemy
 
         private void OnEnnemySeen(EnnemyController ennemy)
         {
+<<<<<<< HEAD
             Debug.Log("Enemy in sight");
+=======
+            Debug.Log("I've seen an ennemy!! Ya so dead noob!!!");
             strategy.SetEnnemyTarget(ennemy);
+>>>>>>> origin/master
         }
 
         private void OnEnnemySightLost(EnnemyController ennemy)
         {
             Debug.Log("Enemy out of sight");
-        }
-
-        private void OnPickableSeen(PickableController pickable)
-        {
-            Debug.Log("Item seen");
-        }
-
-        private void OnPickableSightLost(PickableController pickable)
-        {
-            Debug.Log("Item lost");
         }
 
         public void Heal(int hitPoints)

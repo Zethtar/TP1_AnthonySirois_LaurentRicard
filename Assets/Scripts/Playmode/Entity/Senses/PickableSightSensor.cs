@@ -7,7 +7,7 @@ namespace Playmode.Entity.Senses
 {
     public delegate void PickableSightSensorEventHandler(PickableController pickable);
     
-	public class PickableSensor : MonoBehaviour
+	public class PickableSightSensor : MonoBehaviour
 	{
 	    private ICollection<PickableController> pickablesInSight;
 
@@ -26,26 +26,26 @@ namespace Playmode.Entity.Senses
 			pickablesInSight = new HashSet<PickableController>();
 		}
 		
-		private void See(PickableController pickable)
+		public void See(PickableController pickable)
 		{
 			pickablesInSight.Add(pickable);
 
-			NotifyEnnemySeen(pickable);
+			NotifyPickableSeen(pickable);
 		}
 
-		private void LooseSightOf(PickableController pickable)
+		public void LooseSightOf(PickableController pickable)
 		{
 			pickablesInSight.Remove(pickable);
 
-			NotifyEnnemySightLost(pickable);
+			NotifyPickableSightLost(pickable);
 		}
 
-		private void NotifyEnnemySeen(PickableController pickable)
+		private void NotifyPickableSeen(PickableController pickable)
 		{
 			if (OnPickableSeen != null) OnPickableSeen(pickable);
 		}
 
-		private void NotifyEnnemySightLost(PickableController pickable)
+		private void NotifyPickableSightLost(PickableController pickable)
 		{
 			if (OnPickableSightLost != null) OnPickableSightLost(pickable);
 		}

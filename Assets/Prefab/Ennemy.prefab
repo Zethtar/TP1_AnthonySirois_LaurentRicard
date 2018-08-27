@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 212022067182938298}
   - component: {fileID: 60192341613569478}
   - component: {fileID: 114746414419342102}
+  - component: {fileID: 114306392578189530}
   m_Layer: 0
   m_Name: Sight
   m_TagString: Untagged
@@ -286,6 +287,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8f17ec6ae14e0281088076f69f7002, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114306392578189530
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1699645007186046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43a1c5c80230abd4998a5a89f6fcf263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114363876809746526
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -297,7 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddf3221db0a6417bb514b57e3c5c5818, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 2.5
   rotateSpeed: 90
 --- !u!114 &114365648383534028
 MonoBehaviour:
