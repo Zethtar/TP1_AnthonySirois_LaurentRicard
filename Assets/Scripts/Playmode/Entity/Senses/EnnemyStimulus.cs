@@ -19,12 +19,12 @@ namespace Playmode.Entity.Senses
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            other.GetComponent<EnnemySensor>()?.See(ennemy);
+            other.GetComponent<EnnemySensor>()?.TriggerEnter(ennemy);    
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            other.GetComponent<EnnemySensor>()?.LooseSightOf(ennemy);
+            other.GetComponent<EnnemySensor>()?.TriggerExit(ennemy);
         }
     }
 }

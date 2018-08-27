@@ -5,6 +5,7 @@ using Playmode.Entity.Destruction;
 using Playmode.Entity.Senses;
 using Playmode.Entity.Status;
 using Playmode.Movement;
+using Playmode.Pickable.Types;
 using UnityEngine;
 
 namespace Playmode.Ennemy
@@ -24,7 +25,7 @@ namespace Playmode.Ennemy
         private Health health;
         private Mover mover;
         private Destroyer destroyer;
-        private EnnemySensor ennemySensor;
+        private EnnemySightSensor ennemySightSensor;
         private HitSensor hitSensor;
         private HandController handController;
 
@@ -37,7 +38,7 @@ namespace Playmode.Ennemy
         {
             ValidateSerialisedFields();
             InitializeComponent();
-            CreateStartingWeapon();
+            CreateStartingWeapon(); 
         }
 
         private void ValidateSerialisedFields()
@@ -69,7 +70,7 @@ namespace Playmode.Ennemy
             destroyer = GetComponent<RootDestroyer>();
 
             var rootTransform = transform.root;
-            ennemySensor = rootTransform.GetComponentInChildren<EnnemySensor>();
+            ennemySightSensor = rootTransform.GetComponentInChildren<EnnemySightSensor>();
             hitSensor = rootTransform.GetComponentInChildren<HitSensor>();
             handController = hand.GetComponent<HandController>();
             strategy = new NormalStrategy(mover, handController);
@@ -87,8 +88,8 @@ namespace Playmode.Ennemy
 
         private void OnEnable()
         {
-            ennemySensor.OnEnnemySeen += OnEnnemySeen;
-            ennemySensor.OnEnnemySightLost += OnEnnemySightLost;
+            ennemySightSensor.OnEnnemySeen += OnEnnemySeen;
+            ennemySightSensor.OnEnnemySightLost += OnEnnemySightLost;
             hitSensor.OnHit += OnHit;
             health.OnDeath += OnDeath;
         }
@@ -100,8 +101,8 @@ namespace Playmode.Ennemy
 
         private void OnDisable()
         {
-            ennemySensor.OnEnnemySeen -= OnEnnemySeen;
-            ennemySensor.OnEnnemySightLost -= OnEnnemySightLost;
+            ennemySightSensor.OnEnnemySeen -= OnEnnemySeen;
+            ennemySightSensor.OnEnnemySightLost -= OnEnnemySightLost;
             hitSensor.OnHit -= OnHit;
             health.OnDeath -= OnDeath;
         }
@@ -138,27 +139,41 @@ namespace Playmode.Ennemy
 
         private void OnHit(int hitPoints)
         {
-            Debug.Log("OW, I'm hurt! I'm really much hurt!!!");
+            Debug.Log("I've been hit");
 
             health.Hit(hitPoints);
         }
 
         private void OnDeath()
         {
-            Debug.Log("Yaaaaarggg....!! I died....GG.");
+            Debug.Log("Dead");
 
             destroyer.Destroy();
         }
 
         private void OnEnnemySeen(EnnemyController ennemy)
         {
-            Debug.Log("I've seen an ennemy!! Ya so dead noob!!!");
+            Debug.Log("Enemy in sight");
             strategy.SetEnnemyTarget(ennemy);
         }
 
         private void OnEnnemySightLost(EnnemyController ennemy)
         {
-            Debug.Log("I've lost sight of an ennemy...Yikes!!!");
+            Debug.Log("Enemy out of sight");
+        }
+
+        public void Heal(int hitPoints)
+        {
+            Debug.Log("Healed");
+            
+            health.Heal(hitPoints);
+        }
+
+        public void Equip(GameObject weapon)
+        {
+            Debug.Log("New weapon");
+            
+            handController.Hold(weapon);
         }
     }
 }

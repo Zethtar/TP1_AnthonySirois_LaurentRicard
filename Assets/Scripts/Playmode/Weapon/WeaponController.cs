@@ -1,21 +1,30 @@
 ﻿using System;
+using Playmode.Entity.Senses;
+using Playmode.Weapon.Types;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Playmode.Weapon
 {
     public class WeaponController : MonoBehaviour
     {
-        [Header("Behaviour")] [SerializeField] private GameObject bulletPrefab;
-        [SerializeField] private float fireDelayInSeconds = 1f;
+        [Header("Behaviour")] [SerializeField] protected GameObject bulletPrefab;
+        [SerializeField] protected float fireDelayInSeconds = 1f;
+        [SerializeField] protected int bulletsBaseDamage = 10;
+        [SerializeField] protected WeaponType weaponType;
+        
+        protected int bulletDamage;
+        protected float lastTimeShotInSeconds;
 
-        private float lastTimeShotInSeconds;
-
-        private bool CanShoot => Time.time - lastTimeShotInSeconds > fireDelayInSeconds;
+        public WeaponType WeaponType => weaponType;
+        protected bool CanShoot => Time.time - lastTimeShotInSeconds > fireDelayInSeconds;
 
         private void Awake()
         {
             ValidateSerialisedFields();
             InitializeComponent();
+
+            bulletDamage = bulletsBaseDamage;
         }
 
         private void ValidateSerialisedFields()
@@ -29,14 +38,20 @@ namespace Playmode.Weapon
             lastTimeShotInSeconds = 0;
         }
 
-        public void Shoot()
+        public virtual void Shoot()
         {
             if (CanShoot)
             {
-                Instantiate(bulletPrefab, transform.position, transform.rotation);
-
+                GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+                bullet.GetComponentInChildren<HitStimulus>().HitPoints = bulletDamage;          
+                
                 lastTimeShotInSeconds = Time.time;
             }
+        }
+
+        public virtual void Upgrade()
+        {
+            
         }
     }
 }

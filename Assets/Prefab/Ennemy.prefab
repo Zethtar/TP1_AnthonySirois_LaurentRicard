@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4874356916862428}
   - component: {fileID: 212022067182938298}
   - component: {fileID: 60192341613569478}
-  - component: {fileID: 114574195830500936}
+  - component: {fileID: 114746414419342102}
   m_Layer: 0
   m_Name: Sight
   m_TagString: Untagged
@@ -164,7 +164,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1815521992430954}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.658813, y: 0.8350725, z: 0}
+  m_LocalPosition: {x: 6.0610013, y: 0.012699991, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4031371457590774}
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcfc06487aed404da9073130b54ad51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114574195830500936
+--- !u!114 &114746414419342102
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -352,7 +352,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1699645007186046}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d650ce41c0d4151a1d594c24c2bc7e0, type: 3}
+  m_Script: {fileID: 11500000, guid: cde8ffc7f9d4414381e525d4e54458a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114771647671017566
