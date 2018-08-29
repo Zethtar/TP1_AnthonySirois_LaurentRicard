@@ -8,7 +8,16 @@ namespace Playmode.Ennemy.Strategies
     public class NormalStrategy : Strategy
     {
 
-        public NormalStrategy(Mover mover, HandController handController) : base(mover, handController)
+        public NormalStrategy(
+            Mover mover,
+            HandController handController,
+            EnnemyEnnemyMemory ennemyEnnemyMemory,
+            EnnemyPickableMemory ennemyPickableMemory)
+            : base(
+                  mover,
+                  handController,
+                  ennemyEnnemyMemory,
+                  ennemyPickableMemory)
         {
         }
 
@@ -20,7 +29,15 @@ namespace Playmode.Ennemy.Strategies
             }
             else
             {
-                currentState = EnnemyState.Roaming;
+                if(ennemyEnnemyMemory.IsAnEnnemyInSight())
+                {
+                    ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
+                    currentState = EnnemyState.Attacking;
+                }
+                else
+                {
+                    currentState = EnnemyState.Roaming;
+                }
             }
         }
 
@@ -40,7 +57,7 @@ namespace Playmode.Ennemy.Strategies
 
         private void ChargeTheEnnemy(EnnemyController ennemyTarget)
         {
-            mover.RotateToTarget(ennemyTarget.transform.root.position);   
+            mover.RotateToTarget(ennemyTarget.transform.root.position);
 
             if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.root.position)) > 3)
             {
@@ -48,5 +65,6 @@ namespace Playmode.Ennemy.Strategies
             }
             handController.Use();
         }
+
     }
 }
