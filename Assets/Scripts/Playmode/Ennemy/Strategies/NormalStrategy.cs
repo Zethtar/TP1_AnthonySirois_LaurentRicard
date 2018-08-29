@@ -40,15 +40,13 @@ namespace Playmode.Ennemy.Strategies
 
         private void ChargeTheEnnemy(EnnemyController ennemyTarget)
         {
-            //handController.AimTowards(ennemyTarget.transform.position);
-            mover.RotateToTarget(ennemyTarget.transform.position);
+            mover.RotateToTarget(ennemyTarget.transform.root.position);   
 
-            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.position)) > 3)
+            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.root.position)) > 3)
             {
-                mover.MoveToTarget(ennemyTarget.transform.position);
+                mover.MoveToTarget(ennemyTarget.transform.root.position);
             }
             handController.Use();
         }
-
     }
 }
