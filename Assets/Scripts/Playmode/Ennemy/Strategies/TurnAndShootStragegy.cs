@@ -8,7 +8,16 @@ namespace Playmode.Ennemy.Strategies
     public class TurnAndShootStragegy : Strategy
     {
 
-        public TurnAndShootStragegy(Mover mover, HandController handController) : base(mover, handController)
+        public TurnAndShootStragegy(
+            Mover mover,
+            HandController handController,
+            EnnemyEnnemyMemory ennemyEnnemyMemory,
+            EnnemyPickableMemory ennemyPickableMemory)
+            : base(
+                  mover,
+                  handController,
+                  ennemyEnnemyMemory,
+                  ennemyPickableMemory)
         {
         }
 
