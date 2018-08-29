@@ -8,6 +8,10 @@
         TotalType,
         Invincible
     }
-    
-    
+
+    public enum PickableCategory
+    {
+        Util,
+        Weapon
+    }
 }

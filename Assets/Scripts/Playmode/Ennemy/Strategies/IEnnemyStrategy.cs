@@ -7,7 +7,9 @@ namespace Playmode.Ennemy.Strategies
     {
         Idle,
         Attacking,
-        Roaming
+        Roaming,
+        MedkitSearching,
+        WeaponSearching
     }
 
     public enum EnnemyStrategy

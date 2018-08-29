@@ -1,20 +1,29 @@
 ﻿using Playmode.Ennemy.BodyParts;
+using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Weapon;
 using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
 {
-    public class CarfulStrategy : Strategy
+    public class CarefulStrategy : Strategy
     {
-
-        public CarfulStrategy(Mover mover, HandController handController) : base(mover, handController)
+        private const float SAFE_DISTANCE = 6;
+        private const float HEALTH_THRESHOLD = 30;
+        private readonly Health health;
+        
+        public CarefulStrategy(Mover mover, HandController handController, Health health) : base(mover, handController)
         {
+            this.health = health;
         }
 
-        override public void Act()
+        public override void Act()
         {
-            if (ennemyTarget != null)
+            if (health.HealthPoints <= HEALTH_THRESHOLD) //HP low
+            {
+                currentState = EnnemyState.MedkitSearching;
+            }     
+            else if (ennemyTarget != null)
             {
                 currentState = EnnemyState.Attacking;
             }
@@ -22,9 +31,14 @@ namespace Playmode.Ennemy.Strategies
             {
                 currentState = EnnemyState.Roaming;
             }
-            if (currentState == EnnemyState.Attacking)
+
+            if (currentState == EnnemyState.MedkitSearching)
             {
-                ChargeTheEnnemy(ennemyTarget);
+                base.Roaming();
+            }
+            else if (currentState == EnnemyState.Attacking)
+            {
+                AttackEnemy(ennemyTarget);
             }
             else if (currentState == EnnemyState.Roaming)
             {
@@ -32,16 +46,20 @@ namespace Playmode.Ennemy.Strategies
             }
         }
 
-        private void ChargeTheEnnemy(EnnemyController ennemyTarget)
-        {
-            //handController.AimTowards(ennemyTarget.transform.position);
+        private void AttackEnemy(EnnemyController ennemyTarget)
+        { 
             mover.RotateToTarget(ennemyTarget.transform.position);
-            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.position)) > 3)
+            
+            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.position)) > SAFE_DISTANCE)
             {
-                mover.MoveToTarget(ennemyTarget.transform.position);
+                mover.MoveToTarget(ennemyTarget.transform.position);   
             }
+            else
+            {
+                mover.MoveToTarget(-ennemyTarget.transform.position);
+            }
+            
             handController.Use();
         }
-
     }
 }

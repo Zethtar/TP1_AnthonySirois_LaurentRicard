@@ -123,7 +123,7 @@ namespace Playmode.Ennemy
             {
                 case EnnemyStrategy.Careful:
                     typeSign.GetComponent<SpriteRenderer>().sprite = carefulSprite;
-                    strategy = new CarfulStrategy(mover, handController);
+                    strategy = new CarefulStrategy(mover, handController, health);
                     strategy.SetState(EnnemyState.Roaming);
                     break;
                 case EnnemyStrategy.Cowboy:
@@ -133,7 +133,7 @@ namespace Playmode.Ennemy
                     break;
                 case EnnemyStrategy.Camper:
                     typeSign.GetComponent<SpriteRenderer>().sprite = camperSprite;
-                    strategy = new CamperStrategy(mover, handController);
+                    strategy = new CamperStrategy(mover, handController, health);
                     strategy.SetState(EnnemyState.Roaming);
                     break;
                 default:
@@ -142,19 +142,18 @@ namespace Playmode.Ennemy
                     strategy.SetState(EnnemyState.Roaming);
                     break;
             }
+            
+            strategy = new CarefulStrategy(mover, handController, health);
+            strategy.SetState(EnnemyState.Roaming);//TODO Delete this
         }
 
         private void OnHit(int hitPoints)
         {
-            Debug.Log("I've been hit");
-
             health.Hit(hitPoints);
         }
 
         private void OnDeath()
         {
-            Debug.Log("Dead");
-
             destroyer.Destroy();
         }
 
@@ -180,16 +179,12 @@ namespace Playmode.Ennemy
         }
 
         public void Heal(int hitPoints)
-        {
-            Debug.Log("Healed");
-            
+        {   
             health.Heal(hitPoints);
         }
 
         public void Equip(GameObject weapon)
-        {
-            Debug.Log("New weapon");
-            
+        { 
             handController.Hold(weapon);
         }
     }

@@ -13,6 +13,8 @@ namespace Playmode.Pickable
 	{		
 		protected Destroyer destroyer;
 		private EnnemyCollisionSensor ennemyCollisionSensor;
+		
+		public PickableCategory Category { get; protected set; }
 
 		private void Awake()
 		{

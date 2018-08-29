@@ -1,4 +1,5 @@
 ﻿using Playmode.Ennemy.BodyParts;
+using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Weapon;
 using UnityEngine;
@@ -7,9 +8,11 @@ namespace Playmode.Ennemy.Strategies
 {
     public class CamperStrategy : Strategy
     {
-
-        public CamperStrategy(Mover mover, HandController handController) : base(mover, handController)
+        private readonly Health health;
+        
+        public CamperStrategy(Mover mover, HandController handController, Health health) : base(mover, handController)
         {
+            this.health = health;
         }
 
         override public void Act()

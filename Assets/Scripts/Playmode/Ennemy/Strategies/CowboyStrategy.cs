@@ -1,4 +1,5 @@
 ﻿using Playmode.Ennemy.BodyParts;
+using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Weapon;
 using UnityEngine;
@@ -6,8 +7,7 @@ using UnityEngine;
 namespace Playmode.Ennemy.Strategies
 {
     public class CowboyStrategy : Strategy
-    {
-
+    {      
         public CowboyStrategy(Mover mover, HandController handController) : base(mover, handController)
         {
         }

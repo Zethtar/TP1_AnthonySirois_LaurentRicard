@@ -16,14 +16,20 @@ public class Strategy : IEnnemyStrategy
     protected EnnemyState currentState;
     protected EnnemyState lastState = EnnemyState.Idle;
 
+    protected readonly Vector3 topLeft;
+    protected readonly Vector3 downRight;
+
     public Strategy(Mover mover, HandController handController)
     {
         this.mover = mover;
         this.handController = handController;
         roamingTarget = GetRandomLocation();
+        
+        topLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
+        downRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)); 
     }
 
-    virtual public void Act()
+    public virtual void Act()
     {
     }
 
@@ -44,13 +50,17 @@ public class Strategy : IEnnemyStrategy
 
     protected Vector3 GetRandomLocation()
     {
-        Vector3 randomLocation = new Vector3(Random.Range(-17, 17), Random.Range(-10, 10), 0);
+        Vector3 randomLocation = new Vector3(
+            Random.Range(topLeft.x, downRight.x),
+            Random.Range(downRight.y, topLeft.y),
+            0);
+        
         return randomLocation;
     }
 
     protected bool IsTargetReached(Vector3 target)
     {
-        return ((Vector3.Distance(mover.transform.root.position, target)) < 0.1);
+        return (Vector3.Distance(mover.transform.root.position, target) < 0.1);
     }
 
     protected void Roaming()
@@ -59,8 +69,8 @@ public class Strategy : IEnnemyStrategy
         {
             roamingTarget = GetRandomLocation();
         }
+        
         mover.RotateToTarget(roamingTarget);
         mover.MoveToTarget(roamingTarget);
-
     }
 }
