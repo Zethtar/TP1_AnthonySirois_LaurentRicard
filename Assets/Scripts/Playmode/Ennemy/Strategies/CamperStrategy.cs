@@ -15,7 +15,7 @@ namespace Playmode.Ennemy.Strategies
             this.health = health;
         }
 
-        override public void Act()
+        protected override void Think()
         {
             if (ennemyTarget != null)
             {
@@ -25,6 +25,12 @@ namespace Playmode.Ennemy.Strategies
             {
                 currentState = EnnemyState.Roaming;
             }
+        }
+
+        public override void Act()
+        {
+            Think();
+            
             if (currentState == EnnemyState.Attacking)
             {
                 ChargeTheEnnemy(ennemyTarget);

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Playmode.Ennemy;
 using Playmode.Pickable;
@@ -14,6 +15,12 @@ namespace Playmode.Pickable
         public MedKitController()
         {
             Category = PickableCategory.Util;
+        }
+
+        protected override void ValidateSerialisedFields()
+        {
+            if (healthPointRestored <= 0)
+                throw new ArgumentException("Medkit can't do damage.");
         }
 
         protected override void OnCollision(EnnemyController ennemy)

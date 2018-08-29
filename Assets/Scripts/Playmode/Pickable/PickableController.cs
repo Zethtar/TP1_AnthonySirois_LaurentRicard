@@ -32,16 +32,13 @@ namespace Playmode.Pickable
 			ennemyCollisionSensor.OnCollision -= OnCollision;
 		}
 
-		private void ValidateSerialisedFields()
-		{
-		}
-
 		private void InitializeComponents()
 		{
 			destroyer = GetComponent<RootDestroyer>();
 			ennemyCollisionSensor = transform.root.GetComponentInChildren<EnnemyCollisionSensor>();
 		}
 
+		protected abstract void ValidateSerialisedFields();
 		protected abstract void OnCollision(EnnemyController ennemy);
 	}
 }

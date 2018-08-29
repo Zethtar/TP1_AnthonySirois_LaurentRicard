@@ -18,5 +18,10 @@ namespace Playmode.Ennemy.Strategies
 
             handController.Use();
         }
+
+        protected override void Think()
+        {
+            
+        }
     }
 }

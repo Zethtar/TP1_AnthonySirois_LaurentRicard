@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Playmode.Ennemy;
 using Playmode.Pickable;
@@ -14,6 +15,12 @@ namespace Playmode.Pickable
         public WeaponPickableController()
         {
             Category = PickableCategory.Weapon;
+        }
+        
+        protected override void ValidateSerialisedFields()
+        {
+            if (weaponPrefab == null)
+                throw new ArgumentException("Can't equip null weapon");
         }
         
         protected override void OnCollision(EnnemyController ennemy)

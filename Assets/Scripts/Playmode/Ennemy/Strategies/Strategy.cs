@@ -6,7 +6,7 @@ using Playmode.Weapon;
 using Playmode.Movement;
 using Playmode.Ennemy.BodyParts;
 
-public class Strategy : IEnnemyStrategy
+public abstract class Strategy : IEnnemyStrategy
 {
     protected readonly Mover mover;
     protected readonly HandController handController;
@@ -29,9 +29,9 @@ public class Strategy : IEnnemyStrategy
         downRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)); 
     }
 
-    public virtual void Act()
-    {
-    }
+    public abstract void Act();
+
+    protected abstract void Think();
 
     public void SetEnnemyTarget(EnnemyController ennemyTarget)
     {

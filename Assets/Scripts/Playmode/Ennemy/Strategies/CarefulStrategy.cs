@@ -17,9 +17,9 @@ namespace Playmode.Ennemy.Strategies
             this.health = health;
         }
 
-        public override void Act()
+        protected override void Think()
         {
-            if (health.HealthPoints <= HEALTH_THRESHOLD) //HP low
+            if (health.HealthPoints <= HEALTH_THRESHOLD)
             {
                 currentState = EnnemyState.MedkitSearching;
             }     
@@ -31,6 +31,11 @@ namespace Playmode.Ennemy.Strategies
             {
                 currentState = EnnemyState.Roaming;
             }
+        }
+
+        public override void Act()
+        {
+            Think();
 
             if (currentState == EnnemyState.MedkitSearching)
             {

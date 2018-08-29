@@ -19,6 +19,8 @@ namespace Playmode.Pickable
 		private void Awake()
 		{
 			ValidateSerialisedFields();
+			
+			SpawnPickableOnEverySpawnPoint();
 		}
 		
 		private void ValidateSerialisedFields()
@@ -77,9 +79,28 @@ namespace Playmode.Pickable
 		private void OnEnable()
 		{
 			StartCoroutine(SpawnPickableRoutine());
+		}
+	
+		private void OnDisable()
+		{
+			StopAllCoroutines();
+		}
 
-			
-			for (int i = 0; i < transform.childCount; i++)
+		private bool IsSpawnerIsEmpty(Vector3 position)
+		{
+			GameObject[] pickables = GameObject.FindGameObjectsWithTag(Tags.Pickable);
+			foreach(GameObject currentPickable in pickables)
+			{
+				if (currentPickable.transform.position == position)
+					return false;
+			}
+
+			return true;
+		}
+
+		private void SpawnPickableOnEverySpawnPoint()
+		{
+			for (var i = 0; i < transform.childCount; i++)
 			{
 				GameObject prefab;
 				var position = transform.GetChild(i).position;
@@ -101,23 +122,6 @@ namespace Playmode.Pickable
 				
 				SpawnPickable(position, prefab);
 			}
-		}
-	
-		private void OnDisable()
-		{
-			StopAllCoroutines();
-		}
-
-		private bool IsSpawnerIsEmpty(Vector3 position)
-		{
-			GameObject[] allMovableThings = GameObject.FindGameObjectsWithTag(Tags.Pickable);
-			foreach(GameObject current in allMovableThings)
-			{
-				if (current.transform.position == position)
-					return false;
-			}
-
-			return true;
 		}
 	}
 }
