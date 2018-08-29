@@ -8,7 +8,16 @@ namespace Playmode.Ennemy.Strategies
     public class CowboyStrategy : Strategy
     {
 
-        public CowboyStrategy(Mover mover, HandController handController) : base(mover, handController)
+        public CowboyStrategy(
+            Mover mover,
+            HandController handController,
+            EnnemyEnnemyMemory ennemyEnnemyMemory,
+            EnnemyPickableMemory ennemyPickableMemory)
+            : base(
+                  mover,
+                  handController,
+                  ennemyEnnemyMemory,
+                  ennemyPickableMemory)
         {
         }
 
@@ -20,7 +29,15 @@ namespace Playmode.Ennemy.Strategies
             }
             else
             {
-                currentState = EnnemyState.Roaming;
+                if (ennemyEnnemyMemory.IsAnEnnemyInSight())
+                {
+                    ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
+                    currentState = EnnemyState.Attacking;
+                }
+                else
+                {
+                    currentState = EnnemyState.Roaming;
+                }
             }
             if (currentState == EnnemyState.Attacking)
             {
@@ -34,11 +51,10 @@ namespace Playmode.Ennemy.Strategies
 
         private void ChargeTheEnnemy(EnnemyController ennemyTarget)
         {
-            //handController.AimTowards(ennemyTarget.transform.position);
-            mover.RotateToTarget(ennemyTarget.transform.position);
-            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.position)) > 3)
+            mover.RotateToTarget(ennemyTarget.transform.root.position);
+            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.root.position)) > 3)
             {
-                mover.MoveToTarget(ennemyTarget.transform.position);
+                mover.MoveToTarget(ennemyTarget.transform.root.position);
             }
             handController.Use();
         }

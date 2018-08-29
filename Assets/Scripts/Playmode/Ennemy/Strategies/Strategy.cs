@@ -15,11 +15,15 @@ public class Strategy : IEnnemyStrategy
     protected Vector3 roamingTarget;
     protected EnnemyState currentState;
     protected EnnemyState lastState = EnnemyState.Idle;
+    protected EnnemyEnnemyMemory ennemyEnnemyMemory;
+    protected EnnemyPickableMemory ennemyPickableMemory;
 
-    public Strategy(Mover mover, HandController handController)
+    public Strategy(Mover mover, HandController handController, EnnemyEnnemyMemory ennemyMemory, EnnemyPickableMemory ennemyPickableMemory)
     {
         this.mover = mover;
         this.handController = handController;
+        this.ennemyEnnemyMemory = ennemyMemory;
+        this.ennemyPickableMemory = ennemyPickableMemory;
         roamingTarget = GetRandomLocation();
     }
 

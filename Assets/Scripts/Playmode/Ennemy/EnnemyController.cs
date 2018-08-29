@@ -1,16 +1,17 @@
-﻿using System;
-using Playmode.Ennemy.BodyParts;
+﻿using Playmode.Ennemy.BodyParts;
 using Playmode.Ennemy.Strategies;
 using Playmode.Entity.Destruction;
 using Playmode.Entity.Senses;
 using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
-using Playmode.Pickable.Types;
+using System;
 using UnityEngine;
 
 namespace Playmode.Ennemy
 {
+    public delegate void EnnemyDeathEventHandler(EnnemyController ennemy);
+
     public class EnnemyController : MonoBehaviour
     {
         [Header("Body Parts")] [SerializeField] private GameObject body;
@@ -23,6 +24,8 @@ namespace Playmode.Ennemy
         [SerializeField] private Sprite camperSprite;
         [Header("Behaviour")] [SerializeField] private GameObject startingWeaponPrefab;
 
+        public event EnnemyDeathEventHandler OnOtherEnnemyDeath;
+
         private Health health;
         private Mover mover;
         private Destroyer destroyer;
@@ -34,6 +37,8 @@ namespace Playmode.Ennemy
         private EnnemyState state;
         private Vector3 target;
 
+        private EnnemyEnnemyMemory ennemyEnnemyMemory;
+        private EnnemyPickableMemory ennemyPickableMemory;
         private IEnnemyStrategy strategy;
 
         private void Awake()
@@ -76,7 +81,9 @@ namespace Playmode.Ennemy
             pickableSightSensor = rootTransform.GetComponentInChildren<PickableSightSensor>();
             hitSensor = rootTransform.GetComponentInChildren<HitSensor>();
             handController = hand.GetComponent<HandController>();
-            strategy = new NormalStrategy(mover, handController);
+            ennemyEnnemyMemory = new EnnemyEnnemyMemory();
+            ennemyPickableMemory = new EnnemyPickableMemory();
+            strategy = new NormalStrategy(mover, handController, ennemyEnnemyMemory, ennemyPickableMemory);
             strategy.SetState(EnnemyState.Roaming);
         }
 
@@ -123,22 +130,30 @@ namespace Playmode.Ennemy
             {
                 case EnnemyStrategy.Careful:
                     typeSign.GetComponent<SpriteRenderer>().sprite = carefulSprite;
-                    strategy = new CarfulStrategy(mover, handController);
+                    ennemyEnnemyMemory = new EnnemyEnnemyMemory();
+                    ennemyPickableMemory = new EnnemyPickableMemory();
+                    strategy = new CarfulStrategy(mover, handController, ennemyEnnemyMemory, ennemyPickableMemory);
                     strategy.SetState(EnnemyState.Roaming);
                     break;
                 case EnnemyStrategy.Cowboy:
                     typeSign.GetComponent<SpriteRenderer>().sprite = cowboySprite;
-                    strategy = new CowboyStrategy(mover, handController);
+                    ennemyEnnemyMemory = new EnnemyEnnemyMemory();
+                    ennemyPickableMemory = new EnnemyPickableMemory();
+                    strategy = new CowboyStrategy(mover, handController, ennemyEnnemyMemory, ennemyPickableMemory);
                     strategy.SetState(EnnemyState.Roaming);
                     break;
                 case EnnemyStrategy.Camper:
                     typeSign.GetComponent<SpriteRenderer>().sprite = camperSprite;
-                    strategy = new CamperStrategy(mover, handController);
+                    ennemyEnnemyMemory = new EnnemyEnnemyMemory();
+                    ennemyPickableMemory = new EnnemyPickableMemory();
+                    strategy = new CamperStrategy(mover, handController, ennemyEnnemyMemory, ennemyPickableMemory);
                     strategy.SetState(EnnemyState.Roaming);
                     break;
                 default:
                     typeSign.GetComponent<SpriteRenderer>().sprite = normalSprite;
-                    strategy = new NormalStrategy(mover, handController);
+                    ennemyEnnemyMemory = new EnnemyEnnemyMemory();
+                    ennemyPickableMemory = new EnnemyPickableMemory();
+                    strategy = new NormalStrategy(mover, handController, ennemyEnnemyMemory, ennemyPickableMemory);
                     strategy.SetState(EnnemyState.Roaming);
                     break;
             }
@@ -155,28 +170,33 @@ namespace Playmode.Ennemy
         {
             Debug.Log("Dead");
 
+            NotifyEnnemyDeath(this);
+
             destroyer.Destroy();
         }
 
         private void OnEnnemySeen(EnnemyController ennemy)
         {
             Debug.Log("Enemy in sight");
-            strategy.SetEnnemyTarget(ennemy);
+            ennemyEnnemyMemory.See(ennemy);
         }
 
         private void OnEnnemySightLost(EnnemyController ennemy)
         {
             Debug.Log("Enemy out of sight");
+            ennemyEnnemyMemory.LooseSightOf(ennemy);
         }
 
         private void OnPickableSeen(PickableController pickable)
         {
             Debug.Log("Item seen");
+            ennemyPickableMemory.See(pickable);
         }
 
         private void OnPickableSightLost(PickableController pickable)
         {
             Debug.Log("Item lost");
+            ennemyPickableMemory.LooseSightOf(pickable);
         }
 
         public void Heal(int hitPoints)
@@ -191,6 +211,11 @@ namespace Playmode.Ennemy
             Debug.Log("New weapon");
             
             handController.Hold(weapon);
+        }
+
+        private void NotifyEnnemyDeath(EnnemyController ennemy)
+        {
+            if (OnOtherEnnemyDeath != null) OnOtherEnnemyDeath(ennemy);
         }
     }
 }
