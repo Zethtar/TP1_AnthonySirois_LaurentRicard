@@ -8,10 +8,11 @@ using UnityEngine;
 
 namespace Playmode.Pickable
 {
+
     public class WeaponPickableController : PickableController
     {
         [Header("Values")] [SerializeField] private GameObject weaponPrefab;
-        
+
         public WeaponPickableController()
         {
             Category = PickableCategory.Weapon;
@@ -29,7 +30,7 @@ namespace Playmode.Pickable
                 weaponPrefab,
                 Vector3.zero,
                 Quaternion.identity));
-            
+
             destroyer.Destroy();
         }
     }

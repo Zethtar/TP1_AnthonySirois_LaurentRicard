@@ -8,38 +8,48 @@ using Playmode.Pickable.Types;
 using UnityEngine;
 
 namespace Playmode.Pickable
-{	
-	public abstract class PickableController : MonoBehaviour 
-	{		
-		protected Destroyer destroyer;
-		private EnnemyCollisionSensor ennemyCollisionSensor;
-		
-		public PickableCategory Category { get; protected set; }
+{
+    public delegate void PickableDestroyEventHandler(PickableController pickable);
 
-		private void Awake()
-		{
-			ValidateSerialisedFields();
-			InitializeComponents();
-		}
+    public abstract class PickableController : MonoBehaviour
+    {
+        public event PickableDestroyEventHandler OnPickableDestroy;
 
-		private void OnEnable()
-		{
-			ennemyCollisionSensor.OnCollision += OnCollision;
-		}
+        protected Destroyer destroyer;
+        private EnnemyCollisionSensor ennemyCollisionSensor;
 
-		private void OnDisable()
-		{
-			ennemyCollisionSensor.OnCollision -= OnCollision;
-		}
+        public PickableCategory Category { get; protected set; }
 
-		private void InitializeComponents()
-		{
-			destroyer = GetComponent<RootDestroyer>();
-			ennemyCollisionSensor = transform.root.GetComponentInChildren<EnnemyCollisionSensor>();
-		}
+        private void Awake()
+        {
+            ValidateSerialisedFields();
+            InitializeComponents();
+        }
 
-		protected abstract void ValidateSerialisedFields();
-		protected abstract void OnCollision(EnnemyController ennemy);
-	}
+        private void OnEnable()
+        {
+            ennemyCollisionSensor.OnCollision += OnCollision;
+        }
+
+        private void OnDisable()
+        {
+            NotifyPickableDestroy(this);
+            ennemyCollisionSensor.OnCollision -= OnCollision;
+        }
+
+        private void InitializeComponents()
+        {
+            destroyer = GetComponent<RootDestroyer>();
+            ennemyCollisionSensor = transform.root.GetComponentInChildren<EnnemyCollisionSensor>();
+        }
+
+        protected abstract void ValidateSerialisedFields();
+        protected abstract void OnCollision(EnnemyController ennemy);
+
+        private void NotifyPickableDestroy(PickableController pickable)
+        {
+            if (OnPickableDestroy != null) OnPickableDestroy(pickable);
+        }
+    }
 }
 

@@ -23,6 +23,7 @@ public class EnnemyEnnemyMemory
     public void RemoveEnemy(EnnemyController ennemy)
     {
         ennemiesInSight.Remove(ennemy);
+        ennemy.OnOtherEnnemyDeath -= OnOtherEnnemyDeath;
     }
 
     public bool IsAnEnnemyInSight()
