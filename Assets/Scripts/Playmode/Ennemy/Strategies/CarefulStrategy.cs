@@ -55,6 +55,7 @@ namespace Playmode.Ennemy.Strategies
 
         public override void Act()
         {
+            
             Think();
 
             if (currentState == EnnemyState.MedkitSearching)

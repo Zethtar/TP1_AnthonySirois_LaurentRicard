@@ -38,7 +38,6 @@ namespace Playmode.Ennemy.Strategies
             {
                 currentState = EnnemyState.Roaming;
             }
-
         }
 
         public override void Act()

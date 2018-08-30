@@ -9,8 +9,10 @@ using Random = UnityEngine.Random;
 
 namespace Playmode.Pickable
 {
-	public class PickableSpawner : MonoBehaviour 
+	public class PickableSpawner : MonoBehaviour
 	{
+		private static int COUNT = 0;
+		
 		[SerializeField] private GameObject medKitPrefab;
 		[SerializeField] private GameObject uziPrefab;
 		[SerializeField] private GameObject shotgunPrefab;
@@ -38,7 +40,9 @@ namespace Playmode.Pickable
 
 		private void SpawnPickable(Vector3 position, GameObject prefab)
 		{
-			Instantiate(prefab, position, Quaternion.identity);
+			var pickable = Instantiate(prefab, position, Quaternion.identity);
+			pickable.gameObject.name = pickable.gameObject.name + COUNT;
+			COUNT++;
 		}
 
 		private void SpawnRandomPickable()
