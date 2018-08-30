@@ -147,7 +147,7 @@ namespace Playmode.Ennemy
                     break;
             }
 
-            strategy = new CarefulStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);//TODO Delete this
+            strategy = new CamperStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);//TODO Delete this
             strategy.SetState(EnnemyState.Roaming);
         }
 

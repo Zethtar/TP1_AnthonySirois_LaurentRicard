@@ -23,10 +23,9 @@ namespace Playmode.Ennemy.Strategies
 
         protected override void Think()
         {
-            if(weaponTarget != null)
+            if(pickableTarget != null)
             {
                 currentState = EnnemyState.WeaponSearching;
-
             }
             else
             {
@@ -36,7 +35,7 @@ namespace Playmode.Ennemy.Strategies
                     currentState = EnnemyState.Attacking;
                 }
             }
-            else if (ennemyTarget != null)
+            /*else*/ if (ennemyTarget != null)
             {
                 currentState = EnnemyState.Attacking;
             }
