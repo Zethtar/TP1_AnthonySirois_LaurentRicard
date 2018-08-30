@@ -12,7 +12,17 @@ namespace Playmode.Ennemy.Strategies
         private const float HEALTH_THRESHOLD = 30;
         private readonly Health health;
         
-        public CarefulStrategy(Mover mover, HandController handController, Health health) : base(mover, handController)
+        public CarefulStrategy(
+            Mover mover, 
+            HandController handController, 
+            Health health, 
+            EnnemyEnnemyMemory ennemyEnnemyMemory, 
+            EnnemyPickableMemory ennemyPickableMemory)
+            : base(
+                  mover, 
+                  handController,
+                  ennemyEnnemyMemory, 
+                  ennemyPickableMemory)
         {
             this.health = health;
         }
