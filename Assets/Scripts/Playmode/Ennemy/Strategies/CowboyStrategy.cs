@@ -23,7 +23,20 @@ namespace Playmode.Ennemy.Strategies
 
         protected override void Think()
         {
-            if (ennemyTarget != null)
+            if(weaponTarget != null)
+            {
+                currentState = EnnemyState.WeaponSearching;
+
+            }
+            else
+            {
+                if (ennemyPickableMemory.IsAPickableInSight())
+                {
+                    ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
+                    currentState = EnnemyState.Attacking;
+                }
+            }
+            else if (ennemyTarget != null)
             {
                 currentState = EnnemyState.Attacking;
             }
