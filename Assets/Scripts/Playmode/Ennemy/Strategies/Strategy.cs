@@ -16,13 +16,22 @@ public abstract class Strategy : IEnnemyStrategy
     protected EnnemyState currentState;
     protected EnnemyState lastState = EnnemyState.Idle;
 
+    protected EnnemyEnnemyMemory ennemyEnnemyMemory;
+    protected EnnemyPickableMemory ennemyPickableMemory;
+
     protected readonly Vector3 topLeft;
     protected readonly Vector3 downRight;
 
-    public Strategy(Mover mover, HandController handController)
+    public Strategy(
+        Mover mover, 
+        HandController handController, 
+        EnnemyEnnemyMemory ennemyEnnemyMemory, 
+        EnnemyPickableMemory ennemyPickableMemory)
     {
         this.mover = mover;
         this.handController = handController;
+        this.ennemyEnnemyMemory = ennemyEnnemyMemory;
+        this.ennemyPickableMemory = ennemyPickableMemory;
         roamingTarget = GetRandomLocation();
         
         topLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));

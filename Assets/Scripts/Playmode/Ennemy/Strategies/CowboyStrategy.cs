@@ -8,7 +8,16 @@ namespace Playmode.Ennemy.Strategies
 {
     public class CowboyStrategy : Strategy
     {      
-        public CowboyStrategy(Mover mover, HandController handController) : base(mover, handController)
+        public CowboyStrategy(
+            Mover mover,
+            HandController handController,
+            EnnemyEnnemyMemory ennemyEnnemyMemory,
+            EnnemyPickableMemory ennemyPickableMemory)
+            : base(
+                  mover,
+                  handController,
+                  ennemyEnnemyMemory,
+                  ennemyPickableMemory)
         {
         }
 

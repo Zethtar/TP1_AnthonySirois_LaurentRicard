@@ -10,7 +10,17 @@ namespace Playmode.Ennemy.Strategies
     {
         private readonly Health health;
         
-        public CamperStrategy(Mover mover, HandController handController, Health health) : base(mover, handController)
+        public CamperStrategy(
+            Mover mover, 
+            HandController handController, 
+            Health health, 
+            EnnemyEnnemyMemory ennemyEnnemyMemory, 
+            EnnemyPickableMemory ennemyPickableMemory)
+            : base(
+                  mover, 
+                  handController,
+                  ennemyEnnemyMemory, 
+                  ennemyPickableMemory)
         {
             this.health = health;
         }
