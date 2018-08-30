@@ -70,18 +70,17 @@ namespace Playmode.Ennemy.Strategies
         }
 
         private void AttackEnemy(EnnemyController ennemyTarget)
-        { 
-            mover.RotateToTarget(ennemyTarget.transform.position);
-            
-            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.position)) > SAFE_DISTANCE)
+        {
+            mover.RotateToTarget(ennemyTarget.transform.root.position);   
+
+            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.root.position)) > SAFE_DISTANCE)
             {
-                mover.MoveToTarget(ennemyTarget.transform.position);   
+                mover.MoveToTarget(ennemyTarget.transform.root.position);
             }
-            else
+            else 
             {
-                mover.MoveToTarget(-ennemyTarget.transform.position);
+                mover.MoveToTarget(-ennemyTarget.transform.root.position);
             }
-            
             handController.Use();
         }
     }

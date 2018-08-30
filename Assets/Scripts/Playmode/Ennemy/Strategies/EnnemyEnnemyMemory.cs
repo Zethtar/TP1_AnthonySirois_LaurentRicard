@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Playmode.Ennemy;
 
-public class EnnemyEnnemyMemory : MonoBehaviour
+public class EnnemyEnnemyMemory
 {
     private ICollection<EnnemyController> ennemiesInSight;
 
@@ -14,13 +14,13 @@ public class EnnemyEnnemyMemory : MonoBehaviour
         ennemiesInSight = new HashSet<EnnemyController>();
     }
 
-    public void See(EnnemyController ennemy)
+    public void AddEnemy(EnnemyController ennemy)
     {
         ennemiesInSight.Add(ennemy);
-        ennemy.OnOtherEnnemyDeath += OnOtherEnnemyDeath;    
+        ennemy.OnOtherEnnemyDeath += OnOtherEnnemyDeath;
     }
 
-    public void LooseSightOf(EnnemyController ennemy)
+    public void RemoveEnemy(EnnemyController ennemy)
     {
         ennemiesInSight.Remove(ennemy);
     }
@@ -40,7 +40,10 @@ public class EnnemyEnnemyMemory : MonoBehaviour
             {
                 nearestEnnemy = ennemy;
             }
-            else if (IsEnnemyNearestThanOtherEnnemy(selfPosition, nearestEnnemy, ennemy))
+            else if (IsEnnemyNearestThanOtherEnnemy(
+                selfPosition,
+                nearestEnnemy.transform.root.position,
+                ennemy.transform.root.position))
             {
                 nearestEnnemy = ennemy;
             }
@@ -48,14 +51,14 @@ public class EnnemyEnnemyMemory : MonoBehaviour
         return nearestEnnemy;
     }
 
-    private bool IsEnnemyNearestThanOtherEnnemy (Vector3 selfPosition, EnnemyController firstEnnemy, EnnemyController secondEnnemy)
+    private bool IsEnnemyNearestThanOtherEnnemy (Vector3 selfPosition, Vector3 firstEnnemyPosition, Vector3 secondEnnemyPosition)
     {
-        return ((Vector3.Distance(selfPosition, firstEnnemy.transform.position)) < 
-            (Vector3.Distance(selfPosition, secondEnnemy.transform.position)));
+        return ((Vector3.Distance(selfPosition, firstEnnemyPosition)) < 
+            (Vector3.Distance(selfPosition, secondEnnemyPosition)));
     }
 
     private void OnOtherEnnemyDeath(EnnemyController ennemy)
     {
-        LooseSightOf(ennemy);
+        RemoveEnemy(ennemy);
     }
 }
