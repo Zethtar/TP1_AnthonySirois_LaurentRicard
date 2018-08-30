@@ -40,7 +40,7 @@ public class EnnemyPickableMemory : MonoBehaviour
             {
                 nearestPickable = pickable;
             }
-            else if (IsPickableNearestThanOtherPickable(nearestPickable, pickable))
+            else if (IsPickableNearestThanOtherPickable(nearestPickable.transform.root.position, pickable.transform.root.position))
             {
                 nearestPickable = pickable;
             }
@@ -48,9 +48,9 @@ public class EnnemyPickableMemory : MonoBehaviour
         return nearestPickable;
     }
 
-    private bool IsPickableNearestThanOtherPickable(PickableController firstEnnemy, PickableController secondEnnemy)
+    private bool IsPickableNearestThanOtherPickable(Vector3 firstEnnemyPosition, Vector3 secondEnnemyPosition)
     {
-        return ((Vector3.Distance(transform.position, firstEnnemy.transform.position)) <
-            (Vector3.Distance(transform.position, secondEnnemy.transform.position)));
+        return ((Vector3.Distance(transform.position, firstEnnemyPosition)) <
+            (Vector3.Distance(transform.position, secondEnnemyPosition)));
     }
 }

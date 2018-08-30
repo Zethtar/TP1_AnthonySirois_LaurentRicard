@@ -29,7 +29,15 @@ namespace Playmode.Ennemy.Strategies
             }
             else
             {
-                currentState = EnnemyState.Roaming;
+                if (ennemyEnnemyMemory.IsAnEnnemyInSight())
+                {
+                    ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
+                    currentState = EnnemyState.Attacking;
+                }
+                else
+                {
+                    currentState = EnnemyState.Roaming;
+                }
             }
         }
 

@@ -160,10 +160,10 @@ namespace Playmode.Ennemy
                     break;
             }
 
-            ennemyPickableMemory = new EnnemyPickableMemory();
+            /*ennemyPickableMemory = new EnnemyPickableMemory();
             ennemyEnnemyMemory = new EnnemyEnnemyMemory();
             strategy = new CarefulStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);
-            strategy.SetState(EnnemyState.Roaming);//TODO Delete this
+            strategy.SetState(EnnemyState.Roaming);//TODO Delete this*/
         }
 
         private void OnHit(int hitPoints)
@@ -180,12 +180,13 @@ namespace Playmode.Ennemy
         private void OnEnnemySeen(EnnemyController ennemy)
         {
             Debug.Log("Enemy in sight");
-            strategy.SetEnnemyTarget(ennemy);
+            ennemyEnnemyMemory.See(ennemy);
         }
 
         private void OnEnnemySightLost(EnnemyController ennemy)
         {
             Debug.Log("Enemy out of sight");
+            ennemyEnnemyMemory.LooseSightOf(ennemy);
         }
 
         private void OnPickableSeen(PickableController pickable)
