@@ -71,8 +71,8 @@ public abstract class Strategy : IEnnemyStrategy
     {
         if (ennemyPickableMemory.IsAPickableInSight())
         {
-            roamingTarget = ennemyPickableMemory.
-                GetNearestPickable(mover.transform.root.position).
+            roamingTarget = (ennemyPickableMemory.
+                GetNearestPickable(mover.transform.root.position)).
                 transform.root.position;
         }
         else if (IsTargetReached(roamingTarget))
