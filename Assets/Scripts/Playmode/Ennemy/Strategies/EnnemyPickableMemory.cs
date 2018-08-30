@@ -17,11 +17,13 @@ public class EnnemyPickableMemory
     public void Add(PickableController pickable)
     {
         pickablesInSight.Add(pickable);
+        pickable.OnPickableDestroy += OnPickableDestroy;
     }
 
     public void Remove(PickableController pickable)
     {
         pickablesInSight.Remove(pickable);
+        pickable.OnPickableDestroy -= OnPickableDestroy;
     }
 
     public bool IsAPickableInSight()
@@ -52,5 +54,10 @@ public class EnnemyPickableMemory
         return ((Vector3.Distance(selfPosition, firstEnnemyPosition)) <
             (Vector3.Distance(selfPosition, secondEnnemyPosition)));
     }
- 
+
+    private void OnPickableDestroy(PickableController pickable)
+    {
+        Remove(pickable);
+    }
+
 }
