@@ -39,10 +39,6 @@ namespace Playmode.Ennemy
         private EnnemyEnnemyMemory ennemyEnnemyMemory;
         private EnnemyPickableMemory ennemyPickableMemory;
         private IEnnemyStrategy strategy;
-        //private EnnemyState state;
-        //private Vector3 target;
-
-        
 
         private void Awake()
         {
@@ -128,43 +124,31 @@ namespace Playmode.Ennemy
         {
             body.GetComponent<SpriteRenderer>().color = color;
             sight.GetComponent<SpriteRenderer>().color = color;
+            ennemyPickableMemory = new EnnemyPickableMemory();
+            ennemyEnnemyMemory = new EnnemyEnnemyMemory();
             
             switch (newStrategy)
             {
                 case EnnemyStrategy.Careful:
                     typeSign.GetComponent<SpriteRenderer>().sprite = carefulSprite;
-                    ennemyPickableMemory = new EnnemyPickableMemory();
-                    ennemyEnnemyMemory = new EnnemyEnnemyMemory();
                     strategy = new CarefulStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);
-                    strategy.SetState(EnnemyState.Roaming);
                     break;
                 case EnnemyStrategy.Cowboy:
                     typeSign.GetComponent<SpriteRenderer>().sprite = cowboySprite;
-                    ennemyPickableMemory = new EnnemyPickableMemory();
-                    ennemyEnnemyMemory = new EnnemyEnnemyMemory();
                     strategy = new CowboyStrategy(mover, handController, ennemyEnnemyMemory, ennemyPickableMemory);
-                    strategy.SetState(EnnemyState.Roaming);
                     break;
                 case EnnemyStrategy.Camper:
                     typeSign.GetComponent<SpriteRenderer>().sprite = camperSprite;
-                    ennemyPickableMemory = new EnnemyPickableMemory();
-                    ennemyEnnemyMemory = new EnnemyEnnemyMemory();
                     strategy = new CamperStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);
-                    strategy.SetState(EnnemyState.Roaming);
                     break;
                 default:
                     typeSign.GetComponent<SpriteRenderer>().sprite = normalSprite;
-                    ennemyPickableMemory = new EnnemyPickableMemory();
-                    ennemyEnnemyMemory = new EnnemyEnnemyMemory();
                     strategy = new NormalStrategy(mover, handController, ennemyEnnemyMemory, ennemyPickableMemory);
-                    strategy.SetState(EnnemyState.Roaming);
                     break;
             }
 
-            ennemyPickableMemory = new EnnemyPickableMemory();
-            ennemyEnnemyMemory = new EnnemyEnnemyMemory();
-            strategy = new CarefulStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);
-            strategy.SetState(EnnemyState.Roaming);//TODO Delete this
+            strategy = new CarefulStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);//TODO Delete this
+            strategy.SetState(EnnemyState.Roaming);
         }
 
         private void OnHit(int hitPoints)
@@ -181,22 +165,25 @@ namespace Playmode.Ennemy
         private void OnEnnemySeen(EnnemyController ennemy)
         {
             Debug.Log("Enemy in sight");
-            strategy.SetEnnemyTarget(ennemy);
+            ennemyEnnemyMemory.AddEnemy(ennemy);
         }
 
         private void OnEnnemySightLost(EnnemyController ennemy)
         {
             Debug.Log("Enemy out of sight");
+            ennemyEnnemyMemory.RemoveEnemy(ennemy);
         }
 
         private void OnPickableSeen(PickableController pickable)
         {
             Debug.Log("Item seen");
+            ennemyPickableMemory.Add(pickable);
         }
 
         private void OnPickableSightLost(PickableController pickable)
         {
             Debug.Log("Item lost");
+            ennemyPickableMemory.Remove(pickable);
         }
 
         public void Heal(int hitPoints)

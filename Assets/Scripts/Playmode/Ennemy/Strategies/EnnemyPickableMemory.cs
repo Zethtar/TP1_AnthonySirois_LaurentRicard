@@ -3,24 +3,23 @@ using System.Collections;
 using Playmode.Pickable;
 using System.Collections.Generic;
 
-public class EnnemyPickableMemory : MonoBehaviour
+public class EnnemyPickableMemory
 {
-
     private ICollection<PickableController> pickablesInSight;
 
     public IEnumerable<PickableController> PickablesInSight => pickablesInSight;
 
-    public EnnemyPickableMemory  ()
+    public EnnemyPickableMemory()
     {
         pickablesInSight = new HashSet<PickableController>();
     }
 
-    public void See(PickableController pickable)
+    public void Add(PickableController pickable)
     {
         pickablesInSight.Add(pickable);
     }
 
-    public void LooseSightOf(PickableController pickable)
+    public void Remove(PickableController pickable)
     {
         pickablesInSight.Remove(pickable);
     }
@@ -30,7 +29,7 @@ public class EnnemyPickableMemory : MonoBehaviour
         return (pickablesInSight.Count > 0);
     }
 
-    public PickableController GetNearestPickable()
+    public PickableController GetNearestPickable(Vector3 selfPosition)
     {
         PickableController nearestPickable = null;
 
@@ -40,7 +39,7 @@ public class EnnemyPickableMemory : MonoBehaviour
             {
                 nearestPickable = pickable;
             }
-            else if (IsPickableNearestThanOtherPickable(nearestPickable, pickable))
+            else if (IsPickableNearestThanOtherPickable(selfPosition, nearestPickable, pickable))
             {
                 nearestPickable = pickable;
             }
@@ -48,9 +47,9 @@ public class EnnemyPickableMemory : MonoBehaviour
         return nearestPickable;
     }
 
-    private bool IsPickableNearestThanOtherPickable(PickableController firstEnnemy, PickableController secondEnnemy)
+    private bool IsPickableNearestThanOtherPickable(Vector3 selfPosition, PickableController firstEnnemy, PickableController secondEnnemy)
     {
-        return ((Vector3.Distance(transform.position, firstEnnemy.transform.position)) <
-            (Vector3.Distance(transform.position, secondEnnemy.transform.position)));
+        return ((Vector3.Distance(selfPosition, firstEnnemy.transform.position)) <
+            (Vector3.Distance(selfPosition, secondEnnemy.transform.position)));
     }
 }
