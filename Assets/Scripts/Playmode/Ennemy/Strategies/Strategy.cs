@@ -5,13 +5,15 @@ using Playmode.Ennemy;
 using Playmode.Weapon;
 using Playmode.Movement;
 using Playmode.Ennemy.BodyParts;
+using Playmode.Pickable;
+using Playmode.Pickable.Types;
 
 public abstract class Strategy : IEnnemyStrategy
 {
     protected readonly Mover mover;
     protected readonly HandController handController;
     protected EnnemyController ennemyTarget;
-    protected WeaponController weaponTarget;
+    protected PickableController pickableTarget;
     protected Vector3 roamingTarget;
     protected EnnemyState currentState;
     protected EnnemyState lastState = EnnemyState.Idle;
@@ -45,19 +47,9 @@ public abstract class Strategy : IEnnemyStrategy
         currentState = EnnemyState.Idle;
     }
 
-    public void SetEnnemyTarget(EnnemyController ennemyTarget)
-    {
-        this.ennemyTarget = ennemyTarget;
-    }
-
     public void SetState(EnnemyState state)
     {
         currentState = state;
-    }
-
-    public void SetWeaponTarget(WeaponController weaponTarget)
-    {
-        this.weaponTarget = weaponTarget;
     }
 
     protected Vector3 GetRandomLocation()
@@ -77,7 +69,13 @@ public abstract class Strategy : IEnnemyStrategy
 
     protected void Roaming()
     {
-        if (IsTargetReached(roamingTarget))
+        if (ennemyPickableMemory.IsAPickableInSight())
+        {
+            roamingTarget = ennemyPickableMemory.
+                GetNearestPickable(mover.transform.root.position).
+                transform.root.position;
+        }
+        else if (IsTargetReached(roamingTarget))
         {
             roamingTarget = GetRandomLocation();
         }

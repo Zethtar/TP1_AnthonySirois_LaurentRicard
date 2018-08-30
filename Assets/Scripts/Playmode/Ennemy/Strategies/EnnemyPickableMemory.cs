@@ -2,6 +2,7 @@
 using System.Collections;
 using Playmode.Pickable;
 using System.Collections.Generic;
+using Playmode.Pickable.Types;
 
 public class EnnemyPickableMemory
 {
@@ -29,17 +30,28 @@ public class EnnemyPickableMemory
         return (pickablesInSight.Count > 0);
     }
 
+    public bool IsTypePickableInSight(PickableCategory type)
+    {
+        foreach (var pickable in pickablesInSight)
+        {
+            if (pickable.Category == type)
+                return true;
+        }
+
+        return false;
+    }
+
     public PickableController GetNearestPickable(Vector3 selfPosition)
     {
         PickableController nearestPickable = null;
 
-        foreach (PickableController pickable in pickablesInSight)
+        foreach (var pickable in pickablesInSight)
         {
             if (nearestPickable == null)
             {
                 nearestPickable = pickable;
             }
-            else if (IsPickableNearestThanOtherPickable(selfPosition, nearestPickable, pickable))
+            else if (IsPickableNearestThanOtherPickable(selfPosition, nearestPickable.transform.root.position, pickable.transform.root.position))
             {
                 nearestPickable = pickable;
             }
@@ -47,9 +59,32 @@ public class EnnemyPickableMemory
         return nearestPickable;
     }
 
-    private bool IsPickableNearestThanOtherPickable(Vector3 selfPosition, PickableController firstEnnemy, PickableController secondEnnemy)
+    public PickableController GetNearestTypedPickable(Vector3 selfPosition, PickableCategory type)
     {
-        return ((Vector3.Distance(selfPosition, firstEnnemy.transform.position)) <
-            (Vector3.Distance(selfPosition, secondEnnemy.transform.position)));
+        PickableController nearestPickable = null;
+        
+        foreach (var pickable in pickablesInSight)
+        {
+            if (pickable.Category == type)
+            {
+                if (nearestPickable == null)
+                {
+                    nearestPickable = pickable;
+                }
+                else if (IsPickableNearestThanOtherPickable(selfPosition, nearestPickable.transform.root.position, pickable.transform.root.position))
+                {
+                    nearestPickable = pickable;
+                }
+            }
+            
+        }
+        
+        return nearestPickable;
+    }
+
+    private bool IsPickableNearestThanOtherPickable(Vector3 selfPosition, Vector3 firstEnnemyPosition, Vector3 secondEnnemyPosition)
+    {
+        return ((Vector3.Distance(selfPosition, firstEnnemyPosition)) <
+            (Vector3.Distance(selfPosition, secondEnnemyPosition)));
     }
 }
