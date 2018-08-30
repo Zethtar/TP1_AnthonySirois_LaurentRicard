@@ -24,12 +24,28 @@ namespace Playmode.Ennemy.Strategies
 
         protected override void Think()
         {
+<<<<<<< HEAD
+            if(pickableTarget != null)
+            {
+                currentState = EnnemyState.WeaponSearching;
+            }
+            else
+            {
+                if (ennemyPickableMemory.IsAPickableInSight())
+                {
+                    ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
+                    currentState = EnnemyState.Attacking;
+                }
+            }
+            /*else*/ if (ennemyTarget != null)
+=======
             if (pickableTarget == null)
             {
                 LookingForWeapons();
             }
 
             if (pickableTarget == null)
+>>>>>>> 2c936a13c5cfe80d7c0b1c31e45f5cddc0d43ae2
             {
                 LookingForEnemies();
             }
