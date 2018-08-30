@@ -30,35 +30,26 @@ namespace Playmode.Ennemy.Strategies
 
         protected override void Think()
         {
-            if (health.HealthPoints <= HEALTH_THRESHOLD)
+            if (health.HealthPoints <= HEALTH_THRESHOLD &&
+                ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Util))
             {
-                if (ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Util))
-                {
-                    pickableTarget = ennemyPickableMemory.GetNearestTypedPickable(
-                            mover.transform.root.position,
-                            PickableCategory.Util);
-                    currentState = EnnemyState.MedkitSearching;
-                }
-                else
-                {
-                    currentState = EnnemyState.Roaming;
-                }
+                pickableTarget = ennemyPickableMemory.GetNearestTypedPickable(
+                    mover.transform.root.position,
+                    PickableCategory.Util);
+                currentState = EnnemyState.MedkitSearching;
             }     
             else if (ennemyTarget != null)
             {
                 currentState = EnnemyState.Attacking;
             }
+            else if(ennemyEnnemyMemory.IsAnEnnemyInSight())
+            {
+                ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
+                currentState = EnnemyState.Attacking;
+            }
             else
             {
-                if (ennemyEnnemyMemory.IsAnEnnemyInSight())
-                {
-                    ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
-                    currentState = EnnemyState.Attacking;
-                }
-                else
-                {
-                    currentState = EnnemyState.Roaming;
-                }
+                currentState = EnnemyState.Roaming;
             }
         }
 
@@ -77,6 +68,13 @@ namespace Playmode.Ennemy.Strategies
             }
             else if (currentState == EnnemyState.Roaming)
             {
+                if (ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Weapon))
+                {
+                    roamingTarget = ennemyPickableMemory.
+                        GetNearestPickable(mover.transform.root.position).
+                        transform.root.position;
+                }
+                
                 base.Roaming();
             }
         }
@@ -85,7 +83,7 @@ namespace Playmode.Ennemy.Strategies
         {
             mover.RotateToTarget(ennemyTarget.transform.root.position);   
 
-            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.root.position)) > SAFE_DISTANCE)
+            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.root.position)) >= SAFE_DISTANCE)
             {
                 mover.MoveToTarget(ennemyTarget.transform.root.position);
             }

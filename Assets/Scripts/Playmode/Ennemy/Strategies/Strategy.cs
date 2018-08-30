@@ -69,13 +69,7 @@ public abstract class Strategy : IEnnemyStrategy
 
     protected void Roaming()
     {
-        if (ennemyPickableMemory.IsAPickableInSight())
-        {
-            roamingTarget = (ennemyPickableMemory.
-                GetNearestPickable(mover.transform.root.position)).
-                transform.root.position;
-        }
-        else if (IsTargetReached(roamingTarget))
+        if (IsTargetReached(roamingTarget))
         {
             roamingTarget = GetRandomLocation();
         }
