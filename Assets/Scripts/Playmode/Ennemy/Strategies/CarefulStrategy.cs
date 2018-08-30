@@ -50,7 +50,7 @@ namespace Playmode.Ennemy.Strategies
             }
             else
             {
-                if(ennemyEnnemyMemory.IsAnEnnemyInSight())
+                if (ennemyEnnemyMemory.IsAnEnnemyInSight())
                 {
                     ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
                     currentState = EnnemyState.Attacking;
