@@ -102,7 +102,7 @@ namespace Playmode.Ennemy.Strategies
 
         private void AttackEnemy(EnnemyController ennemyTarget)
         {
-            mover.RotateToTarget(ennemyTarget.transform.position);
+            mover.RotateToTarget(ennemyTarget.transform.root.position);
  
             handController.Use();
         }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Playmode.Entity.Status
 {
-    public delegate void HealthEventHandler();
+    public delegate void HealthEventHandler( );
 
     public class Health : MonoBehaviour
     {

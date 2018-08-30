@@ -34,7 +34,7 @@ namespace Playmode.Ennemy.Strategies
                 LookingForEnemies();
             }
 
-            if (ennemyTarget == null)
+            if (ennemyTarget == null && pickableTarget == null)
             {
                 currentState = EnnemyState.Roaming;
             }
