@@ -1,6 +1,7 @@
 ﻿using Playmode.Ennemy.BodyParts;
 using Playmode.Entity.Status;
 using Playmode.Movement;
+using Playmode.Pickable.Types;
 using Playmode.Weapon;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace Playmode.Ennemy.Strategies
     public class CarefulStrategy : Strategy
     {
         private const float SAFE_DISTANCE = 6;
-        private const float HEALTH_THRESHOLD = 30;
+        private const float HEALTH_THRESHOLD = 50;
         private readonly Health health;
         
         public CarefulStrategy(
@@ -31,7 +32,17 @@ namespace Playmode.Ennemy.Strategies
         {
             if (health.HealthPoints <= HEALTH_THRESHOLD)
             {
-                currentState = EnnemyState.MedkitSearching;
+                if (ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Util))
+                {
+                    pickableTarget = ennemyPickableMemory.GetNearestTypedPickable(
+                            mover.transform.root.position,
+                            PickableCategory.Util);
+                    currentState = EnnemyState.MedkitSearching;
+                }
+                else
+                {
+                    currentState = EnnemyState.Roaming;
+                }
             }     
             else if (ennemyTarget != null)
             {
@@ -57,7 +68,8 @@ namespace Playmode.Ennemy.Strategies
 
             if (currentState == EnnemyState.MedkitSearching)
             {
-                base.Roaming();
+                mover.RotateToTarget(pickableTarget.transform.root.position);   
+                mover.MoveToTarget(pickableTarget.transform.root.position);
             }
             else if (currentState == EnnemyState.Attacking)
             {

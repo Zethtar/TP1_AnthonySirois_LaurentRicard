@@ -18,13 +18,11 @@ public class EnnemyPickableMemory
     public void Add(PickableController pickable)
     {
         pickablesInSight.Add(pickable);
-        pickable.OnPickableDestroy += OnPickableDestroy;
     }
 
     public void Remove(PickableController pickable)
     {
         pickablesInSight.Remove(pickable);
-        pickable.OnPickableDestroy -= OnPickableDestroy;
     }
 
     public bool IsAPickableInSight()
@@ -61,6 +59,7 @@ public class EnnemyPickableMemory
         return nearestPickable;
     }
 
+<<<<<<< HEAD
     public PickableController GetNearestTypedPickable(Vector3 selfPosition, PickableCategory type)
     {
         PickableController nearestPickable = null;
@@ -84,15 +83,12 @@ public class EnnemyPickableMemory
         return nearestPickable;
     }
 
+=======
+>>>>>>> 9265198a7679b29f6ac41f87b2bb7edfdbdc669f
     private bool IsPickableNearestThanOtherPickable(Vector3 selfPosition, Vector3 firstEnnemyPosition, Vector3 secondEnnemyPosition)
     {
         return ((Vector3.Distance(selfPosition, firstEnnemyPosition)) <
             (Vector3.Distance(selfPosition, secondEnnemyPosition)));
     }
-
-    private void OnPickableDestroy(PickableController pickable)
-    {
-        Remove(pickable);
-    }
-
+ 
 }

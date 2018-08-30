@@ -24,8 +24,6 @@ namespace Playmode.Ennemy.Strategies
     {
         void Act();
         void SetState(EnnemyState state);
-        void SetEnnemyTarget(EnnemyController ennemyTarget);
-        void SetWeaponTarget(WeaponController weaponTarget);
     }
 
   
