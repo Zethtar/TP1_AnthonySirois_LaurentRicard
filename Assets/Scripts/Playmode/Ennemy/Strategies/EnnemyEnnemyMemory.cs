@@ -33,21 +33,26 @@ public class EnnemyEnnemyMemory
 
     public EnnemyController GetNearestEnnemy(Vector3 selfPosition)
     {
+        
         EnnemyController nearestEnnemy = null;
 
         foreach (EnnemyController ennemy in ennemiesInSight)
         {
-            if(nearestEnnemy == null)
+            if (ennemy != null)
             {
-                nearestEnnemy = ennemy;
+                if(nearestEnnemy == null)
+                {
+                    nearestEnnemy = ennemy;
+                }
+                else if (IsEnnemyNearestThanOtherEnnemy(
+                    selfPosition,
+                    nearestEnnemy.transform.root.position,
+                    ennemy.transform.root.position))
+                {
+                    nearestEnnemy = ennemy;
+                }
             }
-            else if (IsEnnemyNearestThanOtherEnnemy(
-                selfPosition,
-                nearestEnnemy.transform.root.position,
-                ennemy.transform.root.position))
-            {
-                nearestEnnemy = ennemy;
-            }
+            
         }
         return nearestEnnemy;
     }

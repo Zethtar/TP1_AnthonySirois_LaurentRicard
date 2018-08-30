@@ -41,10 +41,6 @@ namespace Playmode.Ennemy.Strategies
             {
                 currentState = EnnemyState.MedkitGathering;
             }
-            //else if (ennemyTarget != null)
-            //{
-            //    currentState = EnnemyState.Attacking;
-            //}
             else if(ennemyEnnemyMemory.IsAnEnnemyInSight())
             {
                 ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
@@ -63,6 +59,7 @@ namespace Playmode.Ennemy.Strategies
             if (currentState == EnnemyState.MedkitGathering)
             {
                 mover.MoveToTarget(emergencyMedkit.transform.root.position);
+                mover.RotateToTarget(emergencyMedkit.transform.root.position);
             }
             else if (currentState == EnnemyState.Attacking)
             {
@@ -102,7 +99,7 @@ namespace Playmode.Ennemy.Strategies
 
         private void AttackEnemy(EnnemyController ennemyTarget)
         {
-            mover.RotateToTarget(ennemyTarget.transform.position);
+            mover.RotateToTarget(ennemyTarget.transform.root.position);
  
             handController.Use();
         }

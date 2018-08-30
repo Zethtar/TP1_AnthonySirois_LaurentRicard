@@ -49,25 +49,7 @@ public class EnnemyPickableMemory
 
         foreach (var pickable in pickablesInSight)
         {
-            if (nearestPickable == null)
-            {
-                nearestPickable = pickable;
-            }
-            else if (IsPickableNearestThanOtherPickable(selfPosition, nearestPickable.transform.root.position, pickable.transform.root.position))
-            {
-                nearestPickable = pickable;
-            }
-        }
-        return nearestPickable;
-    }
-
-    public PickableController GetNearestTypedPickable(Vector3 selfPosition, PickableCategory type)
-    {
-        PickableController nearestPickable = null;
-        
-        foreach (var pickable in pickablesInSight)
-        {
-            if (pickable.Category == type)
+            if (pickable != null)
             {
                 if (nearestPickable == null)
                 {
@@ -79,6 +61,31 @@ public class EnnemyPickableMemory
                 }
             }
             
+            
+        }
+        return nearestPickable;
+    }
+
+    public PickableController GetNearestTypedPickable(Vector3 selfPosition, PickableCategory type)
+    {
+        PickableController nearestPickable = null;
+        
+        foreach (var pickable in pickablesInSight)
+        {
+            if (pickable != null)
+            {
+                if (pickable.Category == type)
+                {
+                    if (nearestPickable == null)
+                    {
+                        nearestPickable = pickable;
+                    }
+                    else if (IsPickableNearestThanOtherPickable(selfPosition, nearestPickable.transform.root.position, pickable.transform.root.position))
+                    {
+                        nearestPickable = pickable;
+                    }
+                }
+            }
         }
         
         return nearestPickable;
