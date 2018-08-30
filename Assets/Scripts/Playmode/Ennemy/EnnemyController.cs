@@ -30,11 +30,12 @@ namespace Playmode.Ennemy
         private PickableSightSensor pickableSightSensor;
         private HitSensor hitSensor;
         private HandController handController;
-
-        private EnnemyState state;
-        private Vector3 target;
-
+        
         private IEnnemyStrategy strategy;
+        //private EnnemyState state;
+        //private Vector3 target;
+
+        
 
         private void Awake()
         {
