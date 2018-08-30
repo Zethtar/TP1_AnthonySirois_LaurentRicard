@@ -40,7 +40,10 @@ public abstract class Strategy : IEnnemyStrategy
 
     public abstract void Act();
 
-    protected abstract void Think();
+    protected virtual void Think()
+    {
+        currentState = EnnemyState.Idle;
+    }
 
     public void SetEnnemyTarget(EnnemyController ennemyTarget)
     {
