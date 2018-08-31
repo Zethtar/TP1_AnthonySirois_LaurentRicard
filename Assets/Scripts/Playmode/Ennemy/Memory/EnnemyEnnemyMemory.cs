@@ -59,10 +59,10 @@ namespace Playmode.Ennemy.Memory
                     {
                         nearestEnnemy = ennemy;
                     }
-                    else if (!base.IsVectorNearestThanOtherVector(
+                    else if (base.IsVectorNearestThanOtherVector(
                         selfPosition,
-                        nearestEnnemy.transform.root.position,
-                        ennemy.transform.root.position))
+                        ennemy.transform.root.position,
+                        nearestEnnemy.transform.root.position))
                     {
                         nearestEnnemy = ennemy;
                     }
