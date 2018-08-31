@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Playmode.Enemy
 {
-    public class EnnemySpawner : MonoBehaviour
+    public class EnemySpawner : MonoBehaviour
     {
         private static readonly Color[] DefaultColors =
         {
