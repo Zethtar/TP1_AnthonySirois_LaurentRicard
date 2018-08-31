@@ -61,8 +61,7 @@ namespace Playmode.Ennemy.Strategies
 
             if (currentState == EnnemyState.MedkitGathering)
             {
-                mover.MoveToTarget(emergencyMedkit.transform.root.position);
-                mover.RotateToTarget(emergencyMedkit.transform.root.position);
+                base.GoTo(emergencyMedkit.transform.root.position);
             }
             else if (currentState == EnnemyState.Attacking)
             {
@@ -77,7 +76,7 @@ namespace Playmode.Ennemy.Strategies
                 }
                 else
                 {
-                    Sweep();
+                    base.SweepingAroundClockwise();
                 }
             }
             else if (currentState == EnnemyState.MedkitSearching)
@@ -105,11 +104,6 @@ namespace Playmode.Ennemy.Strategies
             mover.RotateToTarget(ennemyTarget.transform.root.position);
 
             handController.Use();
-        }
-
-        private void Sweep()
-        {
-            mover.Rotate(1);
         }
 
     }

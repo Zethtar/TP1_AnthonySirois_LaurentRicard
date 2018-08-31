@@ -57,8 +57,7 @@ namespace Playmode.Ennemy.Strategies
 
             if (currentState == EnnemyState.MedkitSearching)
             {
-                mover.RotateToTarget(pickableTarget.transform.root.position);   
-                mover.MoveToTarget(pickableTarget.transform.root.position);
+                base.GoTo(pickableTarget.transform.root.position);
             }
             else if (currentState == EnnemyState.Attacking)
             {
@@ -66,11 +65,10 @@ namespace Playmode.Ennemy.Strategies
             }
             else if (currentState == EnnemyState.Roaming)
             {
-                if (ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Weapon))
+                base.LookingForTypedPickable(PickableCategory.Util);
+                if (pickableTarget != null)
                 {
-                    roamingTarget = ennemyPickableMemory.
-                        GetNearestPickable(mover.transform.root.position).
-                        transform.root.position;
+                    roamingTarget = pickableTarget.transform.root.position;
                 }
                 
                 base.Roaming();
