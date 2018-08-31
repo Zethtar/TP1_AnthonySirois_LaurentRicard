@@ -1,10 +1,9 @@
-﻿using System;
-using Playmode.Movement;
+﻿using Playmode.Movement;
 using Playmode.Weapon;
 using Playmode.Weapon.Types;
 using UnityEngine;
 
-namespace Playmode.Ennemy.BodyParts
+namespace Playmode.Enemy.BodyParts
 {
     public class HandController : MonoBehaviour
     {
@@ -30,7 +29,7 @@ namespace Playmode.Ennemy.BodyParts
                 {
                     weapon = GetComponentInChildren<UziController>();
                     weapon.Upgrade();
-                    
+
                     Destroy(gameObject);
                 }
                 else if (gameObject.GetComponentInChildren<WeaponController>().WeaponType == WeaponType.Shotgun &&
@@ -38,7 +37,7 @@ namespace Playmode.Ennemy.BodyParts
                 {
                     weapon = GetComponentInChildren<ShotgunController>();
                     weapon.Upgrade();
-                    
+
                     Destroy(gameObject);
                 }
                 else
@@ -46,7 +45,7 @@ namespace Playmode.Ennemy.BodyParts
                     gameObject.transform.parent = transform;
                     gameObject.transform.localPosition = Vector3.zero;
                     gameObject.transform.rotation = transform.rotation;
-                                        
+
                     weapon = gameObject.GetComponentInChildren<WeaponController>();
                 }
             }

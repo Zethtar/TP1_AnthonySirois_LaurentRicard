@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Playmode.Ennemy;
+﻿using Playmode.Enemy;
 using Playmode.Entity.Destruction;
 using Playmode.Entity.Senses;
 using Playmode.Pickable.Types;
@@ -13,12 +10,11 @@ namespace Playmode.Pickable
 
     public abstract class PickableController : MonoBehaviour
     {
-        public event PickableDestroyEventHandler OnPickableDestroy;
-
         protected Destroyer destroyer;
-        private EnnemyCollisionSensor enemyCollisionSensor;
+        private EnemyCollisionSensor enemyCollisionSensor;
 
         public PickableCategory Category { get; protected set; }
+        public event PickableDestroyEventHandler OnPickableDestroy;
 
         private void Awake()
         {
@@ -40,11 +36,11 @@ namespace Playmode.Pickable
         private void InitializeComponents()
         {
             destroyer = GetComponent<RootDestroyer>();
-            enemyCollisionSensor = transform.root.GetComponentInChildren<EnnemyCollisionSensor>();
+            enemyCollisionSensor = transform.root.GetComponentInChildren<EnemyCollisionSensor>();
         }
 
         protected abstract void ValidateSerialisedFields();
-        protected abstract void OnCollision(EnnemyController enemy);
+        protected abstract void OnCollision(EnemyController enemy);
 
         private void NotifyPickableDestroy(PickableController pickable)
         {
@@ -52,4 +48,3 @@ namespace Playmode.Pickable
         }
     }
 }
-

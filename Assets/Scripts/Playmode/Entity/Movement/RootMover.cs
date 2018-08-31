@@ -25,7 +25,8 @@ namespace Playmode.Movement
 
         public override void MoveToTarget(Vector3 target)
         {
-            rootTransform.Translate((target - transform.root.position).normalized * speed * Time.deltaTime, Space.World);
+            rootTransform.Translate((target - transform.root.position).normalized * speed * Time.deltaTime,
+                Space.World);
         }
 
         public override void Rotate(float direction)
@@ -38,13 +39,10 @@ namespace Playmode.Movement
 
         public override void RotateToTarget(Vector3 target)
         {
-            Vector3 targetDir = target - transform.position;
-            float angle = Vector3.SignedAngle(targetDir, transform.up, transform.forward);
+            var targetDir = target - transform.position;
+            var angle = Vector3.SignedAngle(targetDir, transform.up, transform.forward);
 
-            if (angle < -1 || angle > 1)
-            {
-                Rotate(angle);
-            }
+            if (angle < -1 || angle > 1) Rotate(angle);
         }
     }
 }

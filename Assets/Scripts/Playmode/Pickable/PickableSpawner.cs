@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using Playmode.Pickable.Types;
 using Playmode.Util.Values;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
 
 namespace Playmode.Pickable
 {
     public class PickableSpawner : MonoBehaviour
     {
         [SerializeField] private GameObject medKitPrefab;
-        [SerializeField] private GameObject uziPrefab;
         [SerializeField] private GameObject shotgunPrefab;
         [SerializeField] private float spawnDelayInSeconds = 5f;
+        [SerializeField] private GameObject uziPrefab;
 
         private void Awake()
         {
@@ -61,10 +59,7 @@ namespace Playmode.Pickable
                     break;
             }
 
-            if (IsSpawnerIsEmpty(position))
-            {
-                SpawnPickable(position, prefab);
-            }
+            if (IsSpawnerIsEmpty(position)) SpawnPickable(position, prefab);
         }
 
         private IEnumerator SpawnPickableRoutine()
@@ -89,12 +84,10 @@ namespace Playmode.Pickable
         private static bool IsSpawnerIsEmpty(Vector3 position)
         {
             var pickables = GameObject.FindGameObjectsWithTag(Tags.Pickable);
-            
+
             foreach (var currentPickable in pickables)
-            {
                 if (currentPickable.transform.position == position)
                     return false;
-            }
 
             return true;
         }

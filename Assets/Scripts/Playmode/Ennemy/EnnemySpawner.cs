@@ -1,10 +1,9 @@
 ﻿using System;
-using Playmode.Ennemy.Strategies;
-using Playmode.Util;
+using Playmode.Enemy.Strategies;
 using Playmode.Util.Collections;
 using UnityEngine;
 
-namespace Playmode.Ennemy
+namespace Playmode.Enemy
 {
     public class EnnemySpawner : MonoBehaviour
     {
@@ -12,7 +11,7 @@ namespace Playmode.Ennemy
         {
             Color.white, Color.black, Color.blue, Color.cyan, Color.green,
             Color.magenta, Color.red, Color.yellow, new Color(255, 125, 0, 255),
-            Color.grey, new Color(125, 255, 46, 255), new Color(125, 0, 125),  
+            Color.grey, new Color(125, 255, 46, 255), new Color(125, 0, 125)
         };
 
         private static readonly EnemyStrategy[] DefaultStrategies =
@@ -23,8 +22,9 @@ namespace Playmode.Ennemy
             EnemyStrategy.Camper
         };
 
-        [SerializeField] private GameObject ennemyPrefab;
         [SerializeField] private Color[] colors = DefaultColors;
+
+        [SerializeField] private GameObject ennemyPrefab;
 
         private void Awake()
         {
@@ -62,8 +62,8 @@ namespace Playmode.Ennemy
 
         private void SpawnEnnemy(Vector3 position, EnemyStrategy strategy, Color color)
         {
-            GameObject ennemy = Instantiate(ennemyPrefab, position, Quaternion.identity);
-            ennemy.GetComponentInChildren<EnnemyController>()
+            var ennemy = Instantiate(ennemyPrefab, position, Quaternion.identity);
+            ennemy.GetComponentInChildren<EnemyController>()
                 .Configure(strategy, color);
 
             var angle = Vector3.Angle(Vector3.up, Vector3.zero - position);

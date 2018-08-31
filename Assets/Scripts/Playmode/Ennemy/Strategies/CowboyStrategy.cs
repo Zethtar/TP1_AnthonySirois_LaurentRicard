@@ -1,39 +1,39 @@
-﻿using Playmode.Ennemy.BodyParts;
-using Playmode.Ennemy.Memory;
+﻿using Playmode.Enemy.BodyParts;
+using Playmode.Enemy.Memory;
 using Playmode.Movement;
 using Playmode.Pickable.Types;
 using UnityEngine;
 
-namespace Playmode.Ennemy.Strategies
+namespace Playmode.Enemy.Strategies
 {
     public class CowboyStrategy : Strategy
     {
         public CowboyStrategy(
             Mover mover,
             HandController handController,
-            EnnemyEnnemyMemory enemyMemory,
-            EnnemyPickableMemory pickableMemory)
+            EnemyEnemyMemory enemyMemory,
+            EnemyPickableMemory pickableMemory)
             : base(
-                  mover,
-                  handController,
-                  enemyMemory,
-                  pickableMemory)
+                mover,
+                handController,
+                enemyMemory,
+                pickableMemory)
         {
         }
 
         protected override void Think()
         {
-            base.LookingForTypedPickable(PickableCategory.Weapon);
+            LookingForTypedPickable(PickableCategory.Weapon);
             if (pickableMemory.GetPickableTarget() != null)
             {
                 currentState = EnnemyState.WeaponGathering;
-                
             }
             else
             {
-                base.LookingForEnemies();
-                currentState = enemyMemory.GetEnemyTarget() != null 
-                    ? EnnemyState.Attacking : EnnemyState.Roaming;
+                LookingForEnemies();
+                currentState = enemyMemory.GetEnemyTarget() != null
+                    ? EnnemyState.Attacking
+                    : EnnemyState.Roaming;
             }
         }
 
@@ -42,28 +42,18 @@ namespace Playmode.Ennemy.Strategies
             Think();
 
             if (currentState == EnnemyState.WeaponGathering)
-            {
-                base.MoveTowards(pickableMemory.GetPickableTarget().transform.root.position);
-            }
+                MoveTowards(pickableMemory.GetPickableTarget().transform.root.position);
             else if (currentState == EnnemyState.Attacking)
-            {
                 ChargeTheEnnemy(enemyMemory.GetEnemyTarget().transform.root.position);
-            }
-            else if (currentState == EnnemyState.Roaming)
-            {
-                base.Roaming();
-            }
+            else if (currentState == EnnemyState.Roaming) Roaming();
         }
 
         private void ChargeTheEnnemy(Vector3 enemyPosition)
         {
             mover.RotateToTarget(enemyPosition);
-            if ((Vector3.Distance(mover.transform.root.position, enemyPosition)) > MIN_DISTANCE_BETWEEN_ENEMIES)
-            {
+            if (Vector3.Distance(mover.transform.root.position, enemyPosition) > MIN_DISTANCE_BETWEEN_ENEMIES)
                 mover.MoveToTarget(enemyPosition);
-            }
             handController.Use();
         }
- 
     }
 }

@@ -1,7 +1,4 @@
-﻿
-using Playmode.Weapon;
-
-namespace Playmode.Ennemy.Strategies
+﻿namespace Playmode.Enemy.Strategies
 {
     public enum EnnemyState
     {
@@ -26,6 +23,4 @@ namespace Playmode.Ennemy.Strategies
     {
         void Act();
     }
-
-  
 }

@@ -1,11 +1,11 @@
-﻿ using Playmode.Ennemy;
+﻿using Playmode.Enemy;
 using UnityEngine;
 
 namespace Playmode.Entity.Senses
 {
-    public class EnnemyStimulus : MonoBehaviour
+    public class EnemyStimulus : MonoBehaviour
     {
-        private EnnemyController ennemy;
+        private EnemyController enemy;
 
         private void Awake()
         {
@@ -14,17 +14,17 @@ namespace Playmode.Entity.Senses
 
         private void InitializeComponent()
         {
-            ennemy = transform.root.GetComponentInChildren<EnnemyController>();
+            enemy = transform.root.GetComponentInChildren<EnemyController>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            other.GetComponent<EnnemySensor>()?.TriggerEnter(ennemy);    
+            other.GetComponent<EnemySensor>()?.TriggerEnter(enemy);
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            other.GetComponent<EnnemySensor>()?.TriggerExit(ennemy);
+            other.GetComponent<EnemySensor>()?.TriggerExit(enemy);
         }
     }
 }

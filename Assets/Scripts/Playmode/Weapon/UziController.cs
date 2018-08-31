@@ -11,7 +11,7 @@ namespace Playmode.Weapon
         {
             if (CanShoot)
             {
-                GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+                var bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
 
                 bullet.GetComponentInChildren<HitStimulus>().HitPoints = bulletDamage;
                 bullet.transform.Rotate(Vector3.forward, Random.Range(-spread / 2, spread));
@@ -25,10 +25,7 @@ namespace Playmode.Weapon
             bulletDamage += bulletsBaseDamage / 2;
             fireDelayInSeconds /= 1.25f;
 
-            if (spread < 45f)
-            {
-                spread *= 1.15f;
-            }
+            if (spread < 45f) spread *= 1.15f;
         }
     }
 }

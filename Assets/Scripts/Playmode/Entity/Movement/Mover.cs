@@ -5,11 +5,11 @@ namespace Playmode.Movement
 {
     public abstract class Mover : MonoBehaviour
     {
-        public static readonly Vector3 Foward = Vector3.up;
         public const float Clockwise = 1f;
-        
-        [SerializeField] protected float speed = 2f;
+        public static readonly Vector3 Foward = Vector3.up;
         [SerializeField] protected float rotateSpeed = 90f;
+
+        [SerializeField] protected float speed = 2f;
 
         protected void Awake()
         {
@@ -31,6 +31,5 @@ namespace Playmode.Movement
         public abstract void Rotate(float direction);
 
         public abstract void RotateToTarget(Vector3 target);
-
     }
 }

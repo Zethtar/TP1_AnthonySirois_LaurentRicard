@@ -1,49 +1,50 @@
 ﻿using System;
-using Playmode.Ennemy.BodyParts;
-using Playmode.Ennemy.Memory;
-using Playmode.Ennemy.Strategies;
+using Playmode.Enemy.BodyParts;
+using Playmode.Enemy.Memory;
+using Playmode.Enemy.Strategies;
 using Playmode.Entity.Destruction;
 using Playmode.Entity.Senses;
 using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
-using Playmode.Pickable.Types;
 using UnityEngine;
 
-namespace Playmode.Ennemy
+namespace Playmode.Enemy
 {
-    public delegate void EnnemyDeathEventHandler(EnnemyController enemy);
+    public delegate void EnnemyDeathEventHandler(EnemyController enemy);
 
-    public class EnnemyController : MonoBehaviour
+    public class EnemyController : MonoBehaviour
     {
         [Header("Body Parts")] [SerializeField]
         private GameObject body;
 
+        [SerializeField] private Sprite camperSprite;
+
+        [SerializeField] private Sprite carefulSprite;
+        [SerializeField] private Sprite cowboySprite;
+        private Destroyer destroyer;
+
+        private EnemyEnemyMemory enemyMemory;
+        private EnemySightSensor enemySightSensor;
+
         [SerializeField] private GameObject hand;
-        [SerializeField] private GameObject sight;
-        [SerializeField] private GameObject typeSign;
+        private HandController handController;
+
+        private Health health;
+        private HitSensor hitSensor;
+        private Mover mover;
 
         [Header("Type Images")] [SerializeField]
         private Sprite normalSprite;
 
-        [SerializeField] private Sprite carefulSprite;
-        [SerializeField] private Sprite cowboySprite;
-        [SerializeField] private Sprite camperSprite;
+        private EnemyPickableMemory pickableMemory;
+        private PickableSightSensor pickableSightSensor;
+        [SerializeField] private GameObject sight;
         [Header("Behaviour")] [SerializeField] private GameObject startingWeaponPrefab;
+        private IEnnemyStrategy strategy;
+        [SerializeField] private GameObject typeSign;
 
         public event EnnemyDeathEventHandler OnOtherEnemyDeath;
-
-        private Health health;
-        private Mover mover;
-        private Destroyer destroyer;
-        private EnnemySightSensor enemySightSensor;
-        private PickableSightSensor pickableSightSensor;
-        private HitSensor hitSensor;
-        private HandController handController;
-
-        private EnnemyEnnemyMemory enemyMemory;
-        private EnnemyPickableMemory pickableMemory;
-        private IEnnemyStrategy strategy;
 
         private void Awake()
         {
@@ -81,12 +82,12 @@ namespace Playmode.Ennemy
             destroyer = GetComponent<RootDestroyer>();
 
             var rootTransform = transform.root;
-            enemySightSensor = rootTransform.GetComponentInChildren<EnnemySightSensor>();
+            enemySightSensor = rootTransform.GetComponentInChildren<EnemySightSensor>();
             pickableSightSensor = rootTransform.GetComponentInChildren<PickableSightSensor>();
             hitSensor = rootTransform.GetComponentInChildren<HitSensor>();
             handController = hand.GetComponent<HandController>();
-            pickableMemory = new EnnemyPickableMemory();
-            enemyMemory = new EnnemyEnnemyMemory();
+            pickableMemory = new EnemyPickableMemory();
+            enemyMemory = new EnemyEnemyMemory();
             strategy = new NormalStrategy(mover, handController, enemyMemory, pickableMemory);
         }
 
@@ -128,8 +129,8 @@ namespace Playmode.Ennemy
         {
             body.GetComponent<SpriteRenderer>().color = color;
             sight.GetComponent<SpriteRenderer>().color = color;
-            pickableMemory = new EnnemyPickableMemory();
-            enemyMemory = new EnnemyEnnemyMemory();
+            pickableMemory = new EnemyPickableMemory();
+            enemyMemory = new EnemyEnemyMemory();
 
             switch (newStrategy)
             {
@@ -166,12 +167,12 @@ namespace Playmode.Ennemy
             destroyer.Destroy();
         }
 
-        private void OnEnemySeen(EnnemyController enemy)
+        private void OnEnemySeen(EnemyController enemy)
         {
             enemyMemory.Add(enemy);
         }
 
-        private void OnEnemySightLost(EnnemyController enemy)
+        private void OnEnemySightLost(EnemyController enemy)
         {
             enemyMemory.Remove(enemy);
         }
@@ -196,7 +197,7 @@ namespace Playmode.Ennemy
             handController.Hold(weapon);
         }
 
-        private void NotifyOtherEnemyDeath(EnnemyController enemy)
+        private void NotifyOtherEnemyDeath(EnemyController enemy)
         {
             if (OnOtherEnemyDeath != null) OnOtherEnemyDeath(enemy);
         }

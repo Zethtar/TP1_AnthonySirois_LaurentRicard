@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Playmode.Ennemy;
-using Playmode.Pickable;
+using Playmode.Enemy;
 using Playmode.Pickable.Types;
 using UnityEngine;
 
 namespace Playmode.Pickable
 {
-    public class MedKitController : PickableController {
-    
+    public class MedKitController : PickableController
+    {
         [Header("Values")] [SerializeField] private int healthPointRestored = 75;
 
         public MedKitController()
@@ -23,13 +20,11 @@ namespace Playmode.Pickable
                 throw new ArgumentException("Medkit can't do damage.");
         }
 
-        protected override void OnCollision(EnnemyController enemy)
+        protected override void OnCollision(EnemyController enemy)
         {
             enemy.Heal(healthPointRestored);
-            
+
             destroyer.Destroy();
         }
     }
 }
-
-

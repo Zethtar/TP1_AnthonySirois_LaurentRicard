@@ -3,13 +3,11 @@ using UnityEngine;
 
 namespace Playmode.Entity.Status
 {
-    public delegate void HealthEventHandler( );
+    public delegate void HealthEventHandler();
 
     public class Health : MonoBehaviour
     {
         [SerializeField] private int healthPoints = 100;
-
-        public event HealthEventHandler OnDeath;
 
         public int HealthPoints
         {
@@ -21,6 +19,8 @@ namespace Playmode.Entity.Status
                 if (healthPoints <= 0) NotifyDeath();
             }
         }
+
+        public event HealthEventHandler OnDeath;
 
         private void Awake()
         {

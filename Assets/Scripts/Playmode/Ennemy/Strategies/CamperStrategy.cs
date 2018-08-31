@@ -1,13 +1,12 @@
-﻿using Playmode.Ennemy.BodyParts;
-using Playmode.Ennemy.Memory;
+﻿using Playmode.Enemy.BodyParts;
+using Playmode.Enemy.Memory;
 using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable;
 using Playmode.Pickable.Types;
-using Playmode.Weapon;
 using UnityEngine;
 
-namespace Playmode.Ennemy.Strategies
+namespace Playmode.Enemy.Strategies
 {
     public class CamperStrategy : Strategy
     {
@@ -21,13 +20,13 @@ namespace Playmode.Ennemy.Strategies
             Mover mover,
             HandController handController,
             Health health,
-            EnnemyEnnemyMemory enemyMemory,
-            EnnemyPickableMemory pickableMemory)
+            EnemyEnemyMemory enemyMemory,
+            EnemyPickableMemory pickableMemory)
             : base(
-                  mover,
-                  handController,
-                  enemyMemory,
-                  pickableMemory)
+                mover,
+                handController,
+                enemyMemory,
+                pickableMemory)
         {
             this.health = health;
         }
@@ -44,10 +43,11 @@ namespace Playmode.Ennemy.Strategies
             }
             else
             {
-                base.LookingForEnemies();
-                
-                currentState = enemyMemory.GetEnemyTarget() != null 
-                    ? EnnemyState.Attacking : EnnemyState.Idle;
+                LookingForEnemies();
+
+                currentState = enemyMemory.GetEnemyTarget() != null
+                    ? EnnemyState.Attacking
+                    : EnnemyState.Idle;
             }
         }
 
@@ -57,7 +57,7 @@ namespace Playmode.Ennemy.Strategies
 
             if (currentState == EnnemyState.MedkitGathering)
             {
-                base.MoveTowards(emergencyMedkit.transform.root.position);
+                MoveTowards(emergencyMedkit.transform.root.position);
             }
             else if (currentState == EnnemyState.Attacking)
             {
@@ -67,40 +67,35 @@ namespace Playmode.Ennemy.Strategies
             {
                 if (Vector3.Distance(mover.transform.root.position, emergencyMedkit.transform.root.position) >
                     MEDKIT_DISTANCE)
-                {
                     mover.MoveToTarget(emergencyMedkit.transform.root.position);
-                }
                 else
-                {
-                    base.SweepingAroundClockwise();
-                }
+                    SweepingAroundClockwise();
             }
             else if (currentState == EnnemyState.MedkitSearching)
             {
                 if (pickableMemory.IsTypePickableInSight(PickableCategory.Util))
                 {
                     pickableMemory.TargetNearestTypedPickable(
-                         mover.transform.root.position,
-                         PickableCategory.Util);
+                        mover.transform.root.position,
+                        PickableCategory.Util);
                     emergencyMedkit = pickableMemory.GetPickableTarget();
                 }
                 else
                 {
-                    base.Roaming();
+                    Roaming();
                 }
             }
             else if (currentState == EnnemyState.Roaming)
             {
-                base.Roaming();
+                Roaming();
             }
         }
 
-        private void AttackEnemy(EnnemyController ennemyTarget)
+        private void AttackEnemy(EnemyController enemyTarget)
         {
-            mover.RotateToTarget(ennemyTarget.transform.root.position);
+            mover.RotateToTarget(enemyTarget.transform.root.position);
 
             handController.Use();
         }
-
     }
 }

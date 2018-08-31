@@ -39,7 +39,6 @@ namespace Playmode.Movement
 
         public override void RotateToTarget(Vector3 target)
         {
-
         }
     }
 }

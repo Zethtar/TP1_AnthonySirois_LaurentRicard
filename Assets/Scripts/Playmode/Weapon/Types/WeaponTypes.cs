@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Playmode.Weapon.Types
+﻿namespace Playmode.Weapon.Types
 {
     public enum WeaponType
     {

@@ -1,23 +1,22 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections.Generic;
 using Playmode.Pickable;
-using System.Collections.Generic;
 using Playmode.Pickable.Types;
+using UnityEngine;
 
-namespace Playmode.Ennemy.Memory
+namespace Playmode.Enemy.Memory
 {
-    public class EnnemyPickableMemory : EnnemyMemory
+    public class EnemyPickableMemory : EnemyMemory
     {
-        private ICollection<PickableController> pickablesInSight;
-
-        public IEnumerable<PickableController> PickablesInSight => pickablesInSight;
+        private readonly ICollection<PickableController> pickablesInSight;
 
         private PickableController target;
 
-        public EnnemyPickableMemory()
+        public EnemyPickableMemory()
         {
             pickablesInSight = new HashSet<PickableController>();
         }
+
+        public IEnumerable<PickableController> PickablesInSight => pickablesInSight;
 
         public PickableController GetPickableTarget()
         {
@@ -39,10 +38,8 @@ namespace Playmode.Ennemy.Memory
         public bool IsTypePickableInSight(PickableCategory type)
         {
             foreach (var pickable in pickablesInSight)
-            {
                 if (pickable.Category == type)
                     return true;
-            }
 
             return false;
         }
@@ -52,35 +49,24 @@ namespace Playmode.Ennemy.Memory
             PickableController nearestPickable = null;
 
             foreach (var pickable in pickablesInSight)
-            {
                 if (pickable != null)
-                {
                     if (pickable.Category == type)
                     {
                         if (nearestPickable == null)
-                        {
                             nearestPickable = pickable;
-                        }
-                        else if (base.IsVectorCloserThanOtherVector(
+                        else if (IsVectorCloserThanOtherVector(
                             selfPosition,
                             pickable.transform.root.position,
                             nearestPickable.transform.root.position))
-                        {
                             nearestPickable = pickable;
-                        }
                     }
-                }
-            }
 
             target = nearestPickable;
         }
 
         private void OnPickableDestroy(PickableController pickable)
         {
-            if (pickable == target)
-            {
-                target = null;
-            }
+            if (pickable == target) target = null;
 
             Remove(pickable);
         }

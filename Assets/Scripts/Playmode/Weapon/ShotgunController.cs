@@ -5,20 +5,21 @@ namespace Playmode.Weapon
 {
     public class ShotgunController : WeaponController
     {
-        [SerializeField] private int nbBullets = 5;
         [SerializeField] private float angleBetweenBullets = 10f;
-        
+        [SerializeField] private int nbBullets = 5;
+
         public override void Shoot()
         {
             if (CanShoot)
             {
                 for (var i = 0; i < nbBullets; i++)
                 {
-                    GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
+                    var bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
                     bullet.GetComponentInChildren<HitStimulus>().HitPoints = bulletDamage;
-                    bullet.transform.Rotate(Vector3.forward, angleBetweenBullets * i - nbBullets / 2 * angleBetweenBullets);
-                }              
-                
+                    bullet.transform.Rotate(Vector3.forward,
+                        angleBetweenBullets * i - nbBullets / 2 * angleBetweenBullets);
+                }
+
                 lastTimeShotInSeconds = Time.time;
             }
         }

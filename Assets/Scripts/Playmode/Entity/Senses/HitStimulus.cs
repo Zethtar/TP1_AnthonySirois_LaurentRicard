@@ -7,14 +7,11 @@ namespace Playmode.Entity.Senses
     {
         [Header("Behaviour")] [SerializeField] private int hitPoints = 10;
 
-        public int HitPoints 
+        public int HitPoints
         {
             set
             {
-                if (value >= 0)
-                {
-                    hitPoints = value;
-                }
+                if (value >= 0) hitPoints = value;
             }
         }
 
@@ -31,7 +28,7 @@ namespace Playmode.Entity.Senses
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            other.GetComponent<Entity.Senses.HitSensor>()?.Hit(hitPoints);
+            other.GetComponent<HitSensor>()?.Hit(hitPoints);
         }
     }
 }

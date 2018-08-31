@@ -23,6 +23,7 @@ namespace Playmode.Util.Collections
                 enumerator.Reset();
                 enumerator.MoveNext();
             }
+
             return current;
         }
     }
