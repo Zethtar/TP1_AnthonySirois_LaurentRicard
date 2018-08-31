@@ -11,7 +11,7 @@ namespace Playmode.Ennemy.Memory
 
         }
 
-        protected bool IsVectorNearestThanOtherVector(Vector3 selfPosition, Vector3 firstPosition, Vector3 secondPosition)
+        protected bool IsVectorCloserThanOtherVector(Vector3 selfPosition, Vector3 firstPosition, Vector3 secondPosition)
         {
             return ((Vector3.Distance(selfPosition, firstPosition)) <
                 (Vector3.Distance(selfPosition, secondPosition)));

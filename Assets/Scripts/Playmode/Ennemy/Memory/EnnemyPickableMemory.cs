@@ -64,7 +64,7 @@ namespace Playmode.Ennemy.Memory
                     {
                         nearestPickable = pickable;
                     }
-                    else if (base.IsVectorNearestThanOtherVector(
+                    else if (base.IsVectorCloserThanOtherVector(
                         selfPosition,
                         pickable.transform.root.position,
                         nearestPickable.transform.root.position))
@@ -91,7 +91,7 @@ namespace Playmode.Ennemy.Memory
                         {
                             nearestPickable = pickable;
                         }
-                        else if (base.IsVectorNearestThanOtherVector(
+                        else if (base.IsVectorCloserThanOtherVector(
                             selfPosition,
                             pickable.transform.root.position,
                             nearestPickable.transform.root.position))
