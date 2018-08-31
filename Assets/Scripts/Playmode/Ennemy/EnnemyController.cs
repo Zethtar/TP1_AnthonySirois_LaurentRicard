@@ -1,5 +1,6 @@
 ﻿using System;
 using Playmode.Ennemy.BodyParts;
+using Playmode.Ennemy.Memory;
 using Playmode.Ennemy.Strategies;
 using Playmode.Entity.Destruction;
 using Playmode.Entity.Senses;

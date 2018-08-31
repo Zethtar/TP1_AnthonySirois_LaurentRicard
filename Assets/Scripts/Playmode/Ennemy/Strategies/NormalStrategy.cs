@@ -1,6 +1,6 @@
 ﻿using Playmode.Ennemy.BodyParts;
+using Playmode.Ennemy.Memory;
 using Playmode.Movement;
-using Playmode.Weapon;
 using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies

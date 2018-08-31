@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
-using System.Collections;
 using Playmode.Ennemy.Strategies;
 using Playmode.Ennemy;
-using Playmode.Weapon;
 using Playmode.Movement;
 using Playmode.Ennemy.BodyParts;
 using Playmode.Pickable;
-using Playmode.Pickable.Types;
+using Playmode.Ennemy.Memory;
 
 public abstract class Strategy : IEnnemyStrategy
 {

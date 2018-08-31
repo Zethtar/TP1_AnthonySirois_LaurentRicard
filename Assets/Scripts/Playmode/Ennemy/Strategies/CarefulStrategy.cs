@@ -1,8 +1,8 @@
 ﻿using Playmode.Ennemy.BodyParts;
+using Playmode.Ennemy.Memory;
 using Playmode.Entity.Status;
 using Playmode.Movement;
 using Playmode.Pickable.Types;
-using Playmode.Weapon;
 using UnityEngine;
 
 namespace Playmode.Ennemy.Strategies
