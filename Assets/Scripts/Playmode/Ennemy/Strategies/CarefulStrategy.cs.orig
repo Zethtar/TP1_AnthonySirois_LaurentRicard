@@ -39,9 +39,13 @@ namespace Playmode.Ennemy.Strategies
                 currentState = EnnemyState.MedkitSearching;
                 return;
             }
+<<<<<<< HEAD
+            else if (ennemyEnnemyMemory.IsAnEnnemyInSight())
+=======
 
             base.LookingForEnemies();
             if (ennemyTarget != null)
+>>>>>>> 21423f9fd0d3c6b1910a987f641e28adf76e02c5
             {
                 currentState = EnnemyState.Attacking;
                 return;
@@ -83,9 +87,11 @@ namespace Playmode.Ennemy.Strategies
             {
                 mover.MoveToTarget(ennemyTarget.transform.root.position);
             }
-            else
+            else 
             {
-                mover.Move(Vector3.down);
+                var safeDirection = mover.transform.root.position - ennemyTarget.transform.root.position;
+                mover.Move(safeDirection);
+                Debug.Log("Too Close for comfort");
             }
             handController.Use();
         }

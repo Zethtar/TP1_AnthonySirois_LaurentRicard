@@ -11,7 +11,7 @@ namespace Playmode.Ennemy.Memory
 
         public IEnumerable<EnnemyController> EnnemiesInSight => ennemiesInSight;
 
-        private EnnemyController enemyTarget = null;
+        private EnnemyController enemyTarget;
 
 
         public EnnemyEnnemyMemory()
