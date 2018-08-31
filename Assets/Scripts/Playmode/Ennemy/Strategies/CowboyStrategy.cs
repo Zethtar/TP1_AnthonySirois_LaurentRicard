@@ -23,7 +23,6 @@ namespace Playmode.Ennemy.Strategies
 
         protected override void Think()
         {
-            ennemyTarget = ennemyEnnemyMemory.GetEnnemyTarget();
 
             LookingForWeapons();
             if (pickableTarget != null)
