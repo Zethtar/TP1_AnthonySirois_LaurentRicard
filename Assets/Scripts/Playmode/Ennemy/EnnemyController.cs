@@ -12,16 +12,20 @@ using UnityEngine;
 
 namespace Playmode.Ennemy
 {
-
     public delegate void EnnemyDeathEventHandler(EnnemyController ennemy);
 
     public class EnnemyController : MonoBehaviour
     {
-        [Header("Body Parts")] [SerializeField] private GameObject body;
+        [Header("Body Parts")] [SerializeField]
+        private GameObject body;
+
         [SerializeField] private GameObject hand;
         [SerializeField] private GameObject sight;
         [SerializeField] private GameObject typeSign;
-        [Header("Type Images")] [SerializeField] private Sprite normalSprite;
+
+        [Header("Type Images")] [SerializeField]
+        private Sprite normalSprite;
+
         [SerializeField] private Sprite carefulSprite;
         [SerializeField] private Sprite cowboySprite;
         [SerializeField] private Sprite camperSprite;
@@ -36,7 +40,7 @@ namespace Playmode.Ennemy
         private PickableSightSensor pickableSightSensor;
         private HitSensor hitSensor;
         private HandController handController;
-        
+
         private EnnemyEnnemyMemory ennemyEnnemyMemory;
         private EnnemyPickableMemory ennemyPickableMemory;
         private IEnnemyStrategy strategy;
@@ -45,7 +49,7 @@ namespace Playmode.Ennemy
         {
             ValidateSerialisedFields();
             InitializeComponent();
-            CreateStartingWeapon(); 
+            CreateStartingWeapon();
         }
 
         private void ValidateSerialisedFields()
@@ -127,12 +131,13 @@ namespace Playmode.Ennemy
             sight.GetComponent<SpriteRenderer>().color = color;
             ennemyPickableMemory = new EnnemyPickableMemory();
             ennemyEnnemyMemory = new EnnemyEnnemyMemory();
-            
+
             switch (newStrategy)
             {
                 case EnnemyStrategy.Careful:
                     typeSign.GetComponent<SpriteRenderer>().sprite = carefulSprite;
-                    strategy = new CarefulStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);
+                    strategy = new CarefulStrategy(mover, handController, health, ennemyEnnemyMemory,
+                        ennemyPickableMemory);
                     break;
                 case EnnemyStrategy.Cowboy:
                     typeSign.GetComponent<SpriteRenderer>().sprite = cowboySprite;
@@ -140,7 +145,8 @@ namespace Playmode.Ennemy
                     break;
                 case EnnemyStrategy.Camper:
                     typeSign.GetComponent<SpriteRenderer>().sprite = camperSprite;
-                    strategy = new CamperStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);
+                    strategy = new CamperStrategy(mover, handController, health, ennemyEnnemyMemory,
+                        ennemyPickableMemory);
                     break;
                 default:
                     typeSign.GetComponent<SpriteRenderer>().sprite = normalSprite;
@@ -148,6 +154,7 @@ namespace Playmode.Ennemy
                     health.Heal(50);
                     break;
             }
+
             //strategy = new CarefulStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);
             strategy.SetState(EnnemyState.Roaming);
         }
@@ -165,35 +172,31 @@ namespace Playmode.Ennemy
 
         private void OnEnnemySeen(EnnemyController ennemy)
         {
-            Debug.Log("Enemy in sight");
             ennemyEnnemyMemory.AddEnemy(ennemy);
         }
 
         private void OnEnnemySightLost(EnnemyController ennemy)
         {
-            Debug.Log("Enemy out of sight");
             ennemyEnnemyMemory.RemoveEnemy(ennemy);
         }
 
         private void OnPickableSeen(PickableController pickable)
         {
-            Debug.Log("Item seen");
             ennemyPickableMemory.Add(pickable);
         }
 
         private void OnPickableSightLost(PickableController pickable)
         {
-            Debug.Log("Item lost");
             ennemyPickableMemory.Remove(pickable);
         }
 
         public void Heal(int hitPoints)
-        {   
+        {
             health.Heal(hitPoints);
         }
 
         public void Equip(GameObject weapon)
-        { 
+        {
             handController.Hold(weapon);
         }
 

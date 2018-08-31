@@ -20,24 +20,35 @@ namespace Playmode.Ennemy.BodyParts
         {
             mover = GetComponent<AnchoredMover>();
         }
-        
+
         public void Hold(GameObject gameObject)
         {
             if (gameObject != null)
             {
-                if (weapon == null || gameObject.GetComponentInChildren<WeaponController>().WeaponType !=
-                    weapon.WeaponType)
+                if (gameObject.GetComponentInChildren<WeaponController>().WeaponType == WeaponType.Uzi &&
+                    GetComponentInChildren<UziController>() != null)
+                {
+                    weapon = GetComponentInChildren<UziController>();
+                    weapon.Upgrade();
+                    
+                    Destroy(gameObject);
+                }
+                else if (gameObject.GetComponentInChildren<WeaponController>().WeaponType == WeaponType.Shotgun &&
+                         GetComponentInChildren<ShotgunController>() != null)
+                {
+                    weapon = GetComponentInChildren<ShotgunController>();
+                    weapon.Upgrade();
+                    
+                    Destroy(gameObject);
+                }
+                else
                 {
                     gameObject.transform.parent = transform;
                     gameObject.transform.localPosition = Vector3.zero;
                     gameObject.transform.rotation = transform.rotation;
-                
+                                        
                     weapon = gameObject.GetComponentInChildren<WeaponController>();
                 }
-                else
-                {
-                    weapon.Upgrade();
-                }    
             }
             else
             {
@@ -47,7 +58,6 @@ namespace Playmode.Ennemy.BodyParts
 
         public void AimTowards(Vector3 target)
         {
-           
         }
 
         public void Use()

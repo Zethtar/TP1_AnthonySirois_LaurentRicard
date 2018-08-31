@@ -37,6 +37,7 @@ namespace Playmode.Ennemy.Memory
             {
                 enemyTarget = null;
             }
+
             ennemiesInSight.Remove(ennemy);
             ennemy.OnOtherEnnemyDeath -= OnOtherEnnemyDeath;
         }
@@ -48,7 +49,6 @@ namespace Playmode.Ennemy.Memory
 
         public EnnemyController GetNearestEnnemy(Vector3 selfPosition)
         {
-
             EnnemyController nearestEnnemy = null;
 
             foreach (EnnemyController ennemy in ennemiesInSight)
@@ -67,13 +67,11 @@ namespace Playmode.Ennemy.Memory
                         nearestEnnemy = ennemy;
                     }
                 }
-
             }
+
             enemyTarget = nearestEnnemy;
             return nearestEnnemy;
         }
-
-
 
         private void OnOtherEnnemyDeath(EnnemyController enemy)
         {
@@ -81,6 +79,7 @@ namespace Playmode.Ennemy.Memory
             {
                 enemyTarget = null;
             }
+
             RemoveEnemy(enemy);
         }
     }

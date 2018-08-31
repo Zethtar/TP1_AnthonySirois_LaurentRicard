@@ -6,7 +6,6 @@ using Playmode.Pickable.Types;
 
 namespace Playmode.Ennemy.Memory
 {
-
     public class EnnemyPickableMemory : EnnemyMemory
     {
         private ICollection<PickableController> pickablesInSight;
@@ -73,10 +72,8 @@ namespace Playmode.Ennemy.Memory
                         nearestPickable = pickable;
                     }
                 }
-
-
             }
-            pickableTarget = nearestPickable;
+
             return nearestPickable;
         }
 
@@ -104,7 +101,7 @@ namespace Playmode.Ennemy.Memory
                     }
                 }
             }
-            pickableTarget = nearestPickable;
+
             return nearestPickable;
         }
 
@@ -114,8 +111,8 @@ namespace Playmode.Ennemy.Memory
             {
                 pickableTarget = null;
             }
+
             Remove(pickable);
         }
-
     }
 }
