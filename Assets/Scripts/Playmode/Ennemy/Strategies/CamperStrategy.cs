@@ -13,20 +13,20 @@ namespace Playmode.Ennemy.Strategies
     {
         private const int HEALTH_THRESHOLD = 50;
         private const float MEDKIT_DISTANCE = 3f;
-        
+
         private readonly Health health;
         private PickableController emergencyMedkit;
-        
+
         public CamperStrategy(
-            Mover mover, 
-            HandController handController, 
-            Health health, 
-            EnnemyEnnemyMemory ennemyEnnemyMemory, 
+            Mover mover,
+            HandController handController,
+            Health health,
+            EnnemyEnnemyMemory ennemyEnnemyMemory,
             EnnemyPickableMemory ennemyPickableMemory)
             : base(
-                  mover, 
+                  mover,
                   handController,
-                  ennemyEnnemyMemory, 
+                  ennemyEnnemyMemory,
                   ennemyPickableMemory)
         {
             this.health = health;
@@ -37,20 +37,22 @@ namespace Playmode.Ennemy.Strategies
             if (emergencyMedkit == null)
             {
                 currentState = EnnemyState.MedkitSearching;
+                return;
             }
             else if (health.HealthPoints < HEALTH_THRESHOLD)
             {
                 currentState = EnnemyState.MedkitGathering;
+                return;
             }
-            else if(ennemyEnnemyMemory.IsAnEnnemyInSight())
+
+            base.LookingForEnemies();
+            if (ennemyTarget != null)
             {
-                ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
                 currentState = EnnemyState.Attacking;
+                return;
             }
-            else
-            {
-                currentState = EnnemyState.Idle;
-            }
+
+            currentState = EnnemyState.Idle;
         }
 
         public override void Act()
@@ -78,7 +80,7 @@ namespace Playmode.Ennemy.Strategies
                     Sweep();
                 }
             }
-            else if(currentState == EnnemyState.MedkitSearching)
+            else if (currentState == EnnemyState.MedkitSearching)
             {
                 if (ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Util))
                 {
@@ -101,7 +103,7 @@ namespace Playmode.Ennemy.Strategies
         private void AttackEnemy(EnnemyController ennemyTarget)
         {
             mover.RotateToTarget(ennemyTarget.transform.root.position);
- 
+
             handController.Use();
         }
 

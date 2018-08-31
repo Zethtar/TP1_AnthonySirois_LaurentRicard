@@ -65,6 +65,18 @@ public abstract class Strategy : IEnnemyStrategy
         return (Vector3.Distance(mover.transform.root.position, target) < 0.1);
     }
 
+    protected void LookingForEnemies()
+    {
+        if (ennemyEnnemyMemory.GetEnnemyTarget() == null && ennemyEnnemyMemory.IsAnEnnemyInSight())
+        {
+            ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
+        }
+        else
+        {
+            ennemyTarget = ennemyEnnemyMemory.GetEnnemyTarget();
+        }
+    }
+
     protected void Roaming()
     {
         if (IsTargetReached(roamingTarget))

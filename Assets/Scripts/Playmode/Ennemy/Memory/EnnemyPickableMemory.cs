@@ -76,6 +76,7 @@ namespace Playmode.Ennemy.Memory
 
 
             }
+            pickableTarget = nearestPickable;
             return nearestPickable;
         }
 
@@ -103,7 +104,7 @@ namespace Playmode.Ennemy.Memory
                     }
                 }
             }
-
+            pickableTarget = nearestPickable;
             return nearestPickable;
         }
 

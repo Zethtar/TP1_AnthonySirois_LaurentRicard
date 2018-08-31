@@ -31,7 +31,7 @@ namespace Playmode.Ennemy.Strategies
                 return;
             }
 
-            LookingForEnemies();
+            base.LookingForEnemies();
             if (ennemyTarget != null)
             {
                 currentState = EnnemyState.Attacking;
@@ -84,18 +84,6 @@ namespace Playmode.Ennemy.Strategies
             else
             {
                 pickableTarget = ennemyPickableMemory.GetPickableTarget();
-            }
-        }
-
-        private void LookingForEnemies()
-        {
-            if (ennemyEnnemyMemory.GetEnnemyTarget() == null && ennemyEnnemyMemory.IsAnEnnemyInSight())
-            {
-                ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
-            }
-            else
-            {
-                ennemyTarget = ennemyEnnemyMemory.GetEnnemyTarget();
             }
         }
 

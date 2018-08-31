@@ -37,20 +37,17 @@ namespace Playmode.Ennemy.Strategies
                     mover.transform.root.position,
                     PickableCategory.Util);
                 currentState = EnnemyState.MedkitSearching;
-            }     
-            else if (ennemyTarget != null)
+                return;
+            }
+
+            base.LookingForEnemies();
+            if (ennemyTarget != null)
             {
                 currentState = EnnemyState.Attacking;
+                return;
             }
-            else if(ennemyEnnemyMemory.IsAnEnnemyInSight())
-            {
-                ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
-                currentState = EnnemyState.Attacking;
-            }
-            else
-            {
-                currentState = EnnemyState.Roaming;
-            }
+
+            currentState = EnnemyState.Roaming;
         }
 
         public override void Act()
