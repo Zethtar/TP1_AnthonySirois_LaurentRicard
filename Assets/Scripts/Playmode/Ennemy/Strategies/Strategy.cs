@@ -71,7 +71,7 @@ public abstract class Strategy : IEnnemyStrategy
     {
         if (IsTargetReached(roamingTarget))
         {
-            roamingTarget = GetRandomLocation();
+            roamingTarget = GetRandomLocation(); 
         }
         
         mover.RotateToTarget(roamingTarget);

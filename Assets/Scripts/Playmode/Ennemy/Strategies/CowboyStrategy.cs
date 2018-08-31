@@ -24,20 +24,23 @@ namespace Playmode.Ennemy.Strategies
 
         protected override void Think()
         {
-            if (pickableTarget == null)
+            ennemyTarget = ennemyEnnemyMemory.GetEnnemyTarget();
+
+            LookingForWeapons();
+            if (pickableTarget != null)
             {
-                LookingForWeapons();
+                currentState = EnnemyState.WeaponSearching;
+                return;
             }
 
-            if (pickableTarget == null)
+            LookingForEnemies();
+            if (ennemyTarget != null)
             {
-                LookingForEnemies();
+                currentState = EnnemyState.Attacking;
+                return;
             }
 
-            if (ennemyTarget == null && pickableTarget == null)
-            {
-                currentState = EnnemyState.Roaming;
-            }
+            currentState = EnnemyState.Roaming;
         }
 
         public override void Act()
@@ -76,19 +79,25 @@ namespace Playmode.Ennemy.Strategies
 
         private void LookingForWeapons()
         {
-            if (ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Weapon))
+            if (ennemyPickableMemory.GetPickableTarget() == null && ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Weapon))
             {
                 pickableTarget = ennemyPickableMemory.GetNearestTypedPickable(mover.transform.root.position, PickableCategory.Weapon);
-                currentState = EnnemyState.WeaponSearching;
+            }
+            else
+            {
+                pickableTarget = ennemyPickableMemory.GetPickableTarget();
             }
         }
 
         private void LookingForEnemies()
         {
-            if (ennemyEnnemyMemory.IsAnEnnemyInSight())
+            if (ennemyEnnemyMemory.GetEnnemyTarget() == null && ennemyEnnemyMemory.IsAnEnnemyInSight())
             {
                 ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
-                currentState = EnnemyState.Attacking;
+            }
+            else
+            {
+                ennemyTarget = ennemyEnnemyMemory.GetEnnemyTarget();
             }
         }
 
