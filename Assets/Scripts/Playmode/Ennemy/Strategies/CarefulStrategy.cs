@@ -12,18 +12,18 @@ namespace Playmode.Ennemy.Strategies
         private const float SAFE_DISTANCE = 9;
         private const float HEALTH_THRESHOLD = 50;
         private readonly Health health;
-
+        
         public CarefulStrategy(
-            Mover mover,
-            HandController handController,
-            Health health,
-            EnnemyEnnemyMemory ennemyEnnemyMemory,
+            Mover mover, 
+            HandController handController, 
+            Health health, 
+            EnnemyEnnemyMemory ennemyEnnemyMemory, 
             EnnemyPickableMemory ennemyPickableMemory)
             : base(
-                mover,
-                handController,
-                ennemyEnnemyMemory,
-                ennemyPickableMemory)
+                  mover, 
+                  handController,
+                  ennemyEnnemyMemory, 
+                  ennemyPickableMemory)
         {
             this.health = health;
         }
@@ -37,26 +37,27 @@ namespace Playmode.Ennemy.Strategies
                     mover.transform.root.position,
                     PickableCategory.Util);
                 currentState = EnnemyState.MedkitSearching;
+                return;
             }
-            else if (ennemyEnnemyMemory.IsAnEnnemyInSight())
+
+            base.LookingForEnemies();
+            if (ennemyTarget != null)
             {
-                ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
                 currentState = EnnemyState.Attacking;
+                return;
             }
-            else
-            {
-                currentState = EnnemyState.Roaming;
-            }
+
+            currentState = EnnemyState.Roaming;
         }
 
         public override void Act()
         {
+            
             Think();
 
             if (currentState == EnnemyState.MedkitSearching)
             {
-                mover.RotateToTarget(pickableTarget.transform.root.position);
-                mover.MoveToTarget(pickableTarget.transform.root.position);
+                base.GoTo(pickableTarget.transform.root.position);
             }
             else if (currentState == EnnemyState.Attacking)
             {
@@ -64,32 +65,30 @@ namespace Playmode.Ennemy.Strategies
             }
             else if (currentState == EnnemyState.Roaming)
             {
-                if (ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Weapon))
+                base.LookingForTypedPickable(PickableCategory.Util);
+                if (pickableTarget != null)
                 {
-                    roamingTarget = ennemyPickableMemory.GetNearestPickable(mover.transform.root.position).transform
-                        .root.position;
+                    roamingTarget = pickableTarget.transform.root.position;
                 }
-
+                
                 base.Roaming();
             }
         }
 
         private void AttackEnemy(EnnemyController ennemyTarget)
         {
-            mover.RotateToTarget(ennemyTarget.transform.root.position);
+            mover.RotateToTarget(ennemyTarget.transform.root.position);   
 
-            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.root.position)) >=
-                SAFE_DISTANCE)
+            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.root.position)) >= SAFE_DISTANCE)
             {
                 mover.MoveToTarget(ennemyTarget.transform.root.position);
             }
-            else
+            else 
             {
                 var safeDirection = mover.transform.root.position - ennemyTarget.transform.root.position;
                 mover.Move(safeDirection);
                 Debug.Log("Too Close for comfort");
             }
-
             handController.Use();
         }
     }

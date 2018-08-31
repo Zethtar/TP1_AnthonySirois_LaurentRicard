@@ -5,6 +5,7 @@ using Playmode.Movement;
 using Playmode.Ennemy.BodyParts;
 using Playmode.Pickable;
 using Playmode.Ennemy.Memory;
+using Playmode.Pickable.Types;
 
 public abstract class Strategy : IEnnemyStrategy
 {
@@ -65,6 +66,36 @@ public abstract class Strategy : IEnnemyStrategy
         return (Vector3.Distance(mover.transform.root.position, target) < 0.1);
     }
 
+    protected void LookingForEnemies()
+    {
+        if (ennemyEnnemyMemory.GetEnnemyTarget() == null && ennemyEnnemyMemory.IsAnEnnemyInSight())
+        {
+            ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
+        }
+        else
+        {
+            ennemyTarget = ennemyEnnemyMemory.GetEnnemyTarget();
+        }
+    }
+
+    protected void LookingForTypedPickable(PickableCategory pickableType)
+    {
+        if (ennemyPickableMemory.GetPickableTarget() == null && ennemyPickableMemory.IsTypePickableInSight(pickableType))
+        {
+            pickableTarget = ennemyPickableMemory.GetNearestTypedPickable(mover.transform.root.position, pickableType);
+        }
+        else
+        {
+            pickableTarget = ennemyPickableMemory.GetPickableTarget();
+        }
+    }
+
+    protected void GoTo(Vector3 targetPosition)
+    {
+        mover.MoveToTarget(targetPosition);
+        mover.RotateToTarget(targetPosition);
+    }
+
     protected void Roaming()
     {
         if (IsTargetReached(roamingTarget))
@@ -74,5 +105,10 @@ public abstract class Strategy : IEnnemyStrategy
         
         mover.RotateToTarget(roamingTarget);
         mover.MoveToTarget(roamingTarget);
+    }
+
+    protected void SweepingAroundClockwise()
+    {
+        mover.Rotate(1);
     }
 }
