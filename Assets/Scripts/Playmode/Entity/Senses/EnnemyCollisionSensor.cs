@@ -25,7 +25,7 @@ namespace Playmode.Entity.Senses
 
         private void NotifyCollision(EnnemyController ennemy)
         {
-            if (OnCollision != null) OnCollision(ennemy);
+            OnCollision?.Invoke(ennemy);
         }
     }
 }

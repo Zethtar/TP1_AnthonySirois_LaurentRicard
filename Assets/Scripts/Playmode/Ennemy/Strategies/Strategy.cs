@@ -9,16 +9,15 @@ using Playmode.Pickable.Types;
 
 public abstract class Strategy : IEnnemyStrategy
 {
+    protected const float MIN_DISTANCE_BETWEEN_ENEMIES = 3f;
+    
     protected readonly Mover mover;
     protected readonly HandController handController;
-    protected EnnemyController ennemyTarget;
-    protected PickableController pickableTarget;
+    protected EnnemyEnnemyMemory enemyMemory;
+    protected EnnemyPickableMemory pickableMemory;
+    
     protected Vector3 roamingTarget;
     protected EnnemyState currentState;
-    protected EnnemyState lastState = EnnemyState.Idle;
-
-    protected EnnemyEnnemyMemory ennemyEnnemyMemory;
-    protected EnnemyPickableMemory ennemyPickableMemory;
 
     protected readonly Vector3 topLeft;
     protected readonly Vector3 downRight;
@@ -26,17 +25,20 @@ public abstract class Strategy : IEnnemyStrategy
     public Strategy(
         Mover mover, 
         HandController handController, 
-        EnnemyEnnemyMemory ennemyEnnemyMemory, 
-        EnnemyPickableMemory ennemyPickableMemory)
+        EnnemyEnnemyMemory enemyMemory, 
+        EnnemyPickableMemory pickableMemory)
     {
         this.mover = mover;
         this.handController = handController;
-        this.ennemyEnnemyMemory = ennemyEnnemyMemory;
-        this.ennemyPickableMemory = ennemyPickableMemory;
+        this.enemyMemory = enemyMemory;
+        this.pickableMemory = pickableMemory;
+        
         roamingTarget = GetRandomLocation();
         
         topLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
-        downRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0)); 
+        downRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
+
+        currentState = EnnemyState.Roaming;
     }
 
     public abstract void Act();
@@ -44,11 +46,6 @@ public abstract class Strategy : IEnnemyStrategy
     protected virtual void Think()
     {
         currentState = EnnemyState.Idle;
-    }
-
-    public void SetState(EnnemyState state)
-    {
-        currentState = state;
     }
 
     protected Vector3 GetRandomLocation()
@@ -68,29 +65,21 @@ public abstract class Strategy : IEnnemyStrategy
 
     protected void LookingForEnemies()
     {
-        if (ennemyEnnemyMemory.GetEnnemyTarget() == null && ennemyEnnemyMemory.IsAnEnnemyInSight())
+        if (enemyMemory.GetEnemyTarget() == null && enemyMemory.IsAnEnemyInSight())
         {
-            ennemyTarget = ennemyEnnemyMemory.GetNearestEnnemy(mover.transform.root.position);
-        }
-        else
-        {
-            ennemyTarget = ennemyEnnemyMemory.GetEnnemyTarget();
+            enemyMemory.TargetNearestEnemy(mover.transform.root.position);
         }
     }
 
     protected void LookingForTypedPickable(PickableCategory pickableType)
     {
-        if (ennemyPickableMemory.GetPickableTarget() == null && ennemyPickableMemory.IsTypePickableInSight(pickableType))
+        if (pickableMemory.GetPickableTarget() == null && pickableMemory.IsTypePickableInSight(pickableType))
         {
-            pickableTarget = ennemyPickableMemory.GetNearestTypedPickable(mover.transform.root.position, pickableType);
-        }
-        else
-        {
-            pickableTarget = ennemyPickableMemory.GetPickableTarget();
+            pickableMemory.TargetNearestTypedPickable(mover.transform.root.position, pickableType);
         }
     }
 
-    protected void GoTo(Vector3 targetPosition)
+    protected void MoveTowards(Vector3 targetPosition)
     {
         mover.MoveToTarget(targetPosition);
         mover.RotateToTarget(targetPosition);

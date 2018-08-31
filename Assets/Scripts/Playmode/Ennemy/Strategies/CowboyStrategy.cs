@@ -11,47 +11,43 @@ namespace Playmode.Ennemy.Strategies
         public CowboyStrategy(
             Mover mover,
             HandController handController,
-            EnnemyEnnemyMemory ennemyEnnemyMemory,
-            EnnemyPickableMemory ennemyPickableMemory)
+            EnnemyEnnemyMemory enemyMemory,
+            EnnemyPickableMemory pickableMemory)
             : base(
                   mover,
                   handController,
-                  ennemyEnnemyMemory,
-                  ennemyPickableMemory)
+                  enemyMemory,
+                  pickableMemory)
         {
         }
 
         protected override void Think()
         {
-
             base.LookingForTypedPickable(PickableCategory.Weapon);
-            if (pickableTarget != null)
+            if (pickableMemory.GetPickableTarget() != null)
             {
-                currentState = EnnemyState.WeaponSearching;
-                return;
+                currentState = EnnemyState.WeaponGathering;
+                
             }
-
-            base.LookingForEnemies();
-            if (ennemyTarget != null)
+            else
             {
-                currentState = EnnemyState.Attacking;
-                return;
+                base.LookingForEnemies();
+                currentState = enemyMemory.GetEnemyTarget() != null 
+                    ? EnnemyState.Attacking : EnnemyState.Roaming;
             }
-
-            currentState = EnnemyState.Roaming;
         }
 
         public override void Act()
         {
             Think();
 
-            if (currentState == EnnemyState.WeaponSearching)
+            if (currentState == EnnemyState.WeaponGathering)
             {
-                base.GoTo(pickableTarget.transform.root.position);
+                base.MoveTowards(pickableMemory.GetPickableTarget().transform.root.position);
             }
             else if (currentState == EnnemyState.Attacking)
             {
-                ChargeTheEnnemy(ennemyTarget);
+                ChargeTheEnnemy(enemyMemory.GetEnemyTarget().transform.root.position);
             }
             else if (currentState == EnnemyState.Roaming)
             {
@@ -59,12 +55,12 @@ namespace Playmode.Ennemy.Strategies
             }
         }
 
-        private void ChargeTheEnnemy(EnnemyController ennemyTarget)
+        private void ChargeTheEnnemy(Vector3 enemyPosition)
         {
-            mover.RotateToTarget(ennemyTarget.transform.root.position);
-            if ((Vector3.Distance(mover.transform.root.position, ennemyTarget.transform.root.position)) > 3)
+            mover.RotateToTarget(enemyPosition);
+            if ((Vector3.Distance(mover.transform.root.position, enemyPosition)) > MIN_DISTANCE_BETWEEN_ENEMIES)
             {
-                mover.MoveToTarget(ennemyTarget.transform.root.position);
+                mover.MoveToTarget(enemyPosition);
             }
             handController.Use();
         }

@@ -15,7 +15,7 @@ namespace Playmode.Entity.Senses
 
         private void NotifyHit(int hitPoints)
         {
-            if (OnHit != null) OnHit(hitPoints);
+            OnHit?.Invoke(hitPoints);
         }
     }
 }

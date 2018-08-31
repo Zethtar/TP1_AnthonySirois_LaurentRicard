@@ -12,7 +12,7 @@ namespace Playmode.Weapon
         {
             if (CanShoot)
             {
-                for (int i = 0; i < nbBullets; i++)
+                for (var i = 0; i < nbBullets; i++)
                 {
                     GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation);
                     bullet.GetComponentInChildren<HitStimulus>().HitPoints = bulletDamage;

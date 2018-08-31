@@ -9,7 +9,7 @@ namespace Playmode.Ennemy.Strategies
 {
     public class CarefulStrategy : Strategy
     {
-        private const float SAFE_DISTANCE = 9;
+        private const float SAFE_DISTANCE = 6f;
         private const float HEALTH_THRESHOLD = 50;
         private readonly Health health;
         
@@ -17,13 +17,13 @@ namespace Playmode.Ennemy.Strategies
             Mover mover, 
             HandController handController, 
             Health health, 
-            EnnemyEnnemyMemory ennemyEnnemyMemory, 
-            EnnemyPickableMemory ennemyPickableMemory)
+            EnnemyEnnemyMemory enemyMemory, 
+            EnnemyPickableMemory pickableMemory)
             : base(
                   mover, 
                   handController,
-                  ennemyEnnemyMemory, 
-                  ennemyPickableMemory)
+                  enemyMemory, 
+                  pickableMemory)
         {
             this.health = health;
         }
@@ -31,23 +31,21 @@ namespace Playmode.Ennemy.Strategies
         protected override void Think()
         {
             if (health.HealthPoints <= HEALTH_THRESHOLD &&
-                ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Util))
+                pickableMemory.IsTypePickableInSight(PickableCategory.Util))
             {
-                pickableTarget = ennemyPickableMemory.GetNearestTypedPickable(
+                pickableMemory.TargetNearestTypedPickable(
                     mover.transform.root.position,
                     PickableCategory.Util);
+                
                 currentState = EnnemyState.MedkitSearching;
-                return;
             }
-
-            base.LookingForEnemies();
-            if (ennemyTarget != null)
+            else
             {
-                currentState = EnnemyState.Attacking;
-                return;
+                base.LookingForEnemies();
+                
+                currentState = enemyMemory.GetEnemyTarget() != null 
+                    ? EnnemyState.Attacking : EnnemyState.Roaming;
             }
-
-            currentState = EnnemyState.Roaming;
         }
 
         public override void Act()
@@ -57,18 +55,18 @@ namespace Playmode.Ennemy.Strategies
 
             if (currentState == EnnemyState.MedkitSearching)
             {
-                base.GoTo(pickableTarget.transform.root.position);
+                base.MoveTowards(pickableMemory.GetPickableTarget().transform.root.position);
             }
             else if (currentState == EnnemyState.Attacking)
             {
-                AttackEnemy(ennemyTarget);
+                AttackEnemy(enemyMemory.GetEnemyTarget());
             }
             else if (currentState == EnnemyState.Roaming)
             {
                 base.LookingForTypedPickable(PickableCategory.Util);
-                if (pickableTarget != null)
+                if (pickableMemory.GetPickableTarget() != null)
                 {
-                    roamingTarget = pickableTarget.transform.root.position;
+                    roamingTarget = pickableMemory.GetPickableTarget().transform.root.position;
                 }
                 
                 base.Roaming();

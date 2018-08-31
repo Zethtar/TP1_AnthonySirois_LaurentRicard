@@ -9,47 +9,28 @@ namespace Playmode.Entity.Senses
     
 	public class PickableSightSensor : MonoBehaviour
 	{
-	    private ICollection<PickableController> pickablesInSight;
-
 	    public event PickableSightSensorEventHandler OnPickableSeen;
 	    public event PickableSightSensorEventHandler OnPickableSightLost;
-
-	    public IEnumerable<PickableController> PickablesInSight => pickablesInSight;
-
-		private void Awake()
-		{
-			InitializeComponent();
-		}
-
-		private void InitializeComponent()
-		{
-			pickablesInSight = new HashSet<PickableController>();
-		}
 		
 		public void See(PickableController pickable)
 		{
-			pickablesInSight.Add(pickable);
-
 			NotifyPickableSeen(pickable);
 		}
 
 		public void LooseSightOf(PickableController pickable)
 		{
-			pickablesInSight.Remove(pickable);
-
 			NotifyPickableSightLost(pickable);
 		}
 
 		private void NotifyPickableSeen(PickableController pickable)
 		{
-			if (OnPickableSeen != null) OnPickableSeen(pickable);
+			OnPickableSeen?.Invoke(pickable);
 		}
 
 		private void NotifyPickableSightLost(PickableController pickable)
 		{
-			if (OnPickableSightLost != null) OnPickableSightLost(pickable);
+			OnPickableSightLost?.Invoke(pickable);
 		}
-
 	}
 }
 

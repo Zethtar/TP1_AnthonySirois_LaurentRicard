@@ -24,9 +24,9 @@ namespace Playmode.Pickable
                 throw new ArgumentException("Can't equip null weapon");
         }
         
-        protected override void OnCollision(EnnemyController ennemy)
+        protected override void OnCollision(EnnemyController enemy)
         {
-            ennemy.Equip(Instantiate(
+            enemy.Equip(Instantiate(
                 weaponPrefab,
                 Vector3.zero,
                 Quaternion.identity));

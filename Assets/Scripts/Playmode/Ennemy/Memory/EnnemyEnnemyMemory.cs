@@ -7,80 +7,77 @@ namespace Playmode.Ennemy.Memory
 {
     public class EnnemyEnnemyMemory : EnnemyMemory
     {
-        private ICollection<EnnemyController> ennemiesInSight;
+        private ICollection<EnnemyController> enemiesInSight;
 
-        public IEnumerable<EnnemyController> EnnemiesInSight => ennemiesInSight;
+        public IEnumerable<EnnemyController> EnemiesInSight => enemiesInSight;
 
-        private EnnemyController enemyTarget;
-
-
+        private EnnemyController target;
+        
         public EnnemyEnnemyMemory()
         {
-            ennemiesInSight = new HashSet<EnnemyController>();
+            enemiesInSight = new HashSet<EnnemyController>();
         }
 
-
-        public EnnemyController GetEnnemyTarget()
+        public EnnemyController GetEnemyTarget()
         {
-            return enemyTarget;
+            return target;
         }
 
-        public void AddEnemy(EnnemyController ennemy)
+        public void Add(EnnemyController enemy)
         {
-            ennemiesInSight.Add(ennemy);
-            ennemy.OnOtherEnnemyDeath += OnOtherEnnemyDeath;
+            enemiesInSight.Add(enemy);
+            enemy.OnOtherEnemyDeath += OnOtherEnemyDeath;
         }
 
-        public void RemoveEnemy(EnnemyController ennemy)
+        public void Remove(EnnemyController enemy)
         {
-            if (enemyTarget == ennemy)
+            if (target == enemy)
             {
-                enemyTarget = null;
+                target = null;
             }
 
-            ennemiesInSight.Remove(ennemy);
-            ennemy.OnOtherEnnemyDeath -= OnOtherEnnemyDeath;
+            enemiesInSight.Remove(enemy);
+            enemy.OnOtherEnemyDeath -= OnOtherEnemyDeath;
         }
 
-        public bool IsAnEnnemyInSight()
+        public bool IsAnEnemyInSight()
         {
-            return (ennemiesInSight.Count > 0);
+            return (enemiesInSight.Count > 0);
         }
 
-        public EnnemyController GetNearestEnnemy(Vector3 selfPosition)
+        public void TargetNearestEnemy(Vector3 selfPosition)
         {
-            EnnemyController nearestEnnemy = null;
+            EnnemyController nearestEnemy = null;
 
-            foreach (EnnemyController ennemy in ennemiesInSight)
+            foreach (EnnemyController enemy in enemiesInSight)
             {
-                if (ennemy != null)
+                if (enemy != null)
                 {
-                    if (nearestEnnemy == null)
+                    if (nearestEnemy == null)
                     {
-                        nearestEnnemy = ennemy;
+                        nearestEnemy = enemy;
                     }
                     else if (base.IsVectorCloserThanOtherVector(
                         selfPosition,
-                        ennemy.transform.root.position,
-                        nearestEnnemy.transform.root.position))
+                        enemy.transform.root.position,
+                        nearestEnemy.transform.root.position))
                     {
-                        nearestEnnemy = ennemy;
+                        nearestEnemy = enemy;
                     }
                 }
             }
 
-            enemyTarget = nearestEnnemy;
-            return nearestEnnemy;
+            target = nearestEnemy;
         }
 
-        private void OnOtherEnnemyDeath(EnnemyController enemy)
+        private void OnOtherEnemyDeath(EnnemyController enemy)
         {
-            if (enemy == enemyTarget)
+            if (target == enemy)
             {
-                enemyTarget = null;
+                target = null;
             }
 
-            RemoveEnemy(enemy);
+            Remove(enemy);
         }
     }
 }

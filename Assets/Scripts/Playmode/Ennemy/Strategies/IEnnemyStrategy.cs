@@ -11,10 +11,10 @@ namespace Playmode.Ennemy.Strategies
         Roaming,
         MedkitGathering,
         MedkitSearching,
-        WeaponSearching
+        WeaponGathering
     }
 
-    public enum EnnemyStrategy
+    public enum EnemyStrategy
     {
         Normal,
         Careful,
@@ -25,7 +25,6 @@ namespace Playmode.Ennemy.Strategies
     public interface IEnnemyStrategy
     {
         void Act();
-        void SetState(EnnemyState state);
     }
 
   

@@ -15,12 +15,12 @@ namespace Playmode.Ennemy
             Color.grey, new Color(125, 255, 46, 255), new Color(125, 0, 125),  
         };
 
-        private static readonly EnnemyStrategy[] DefaultStrategies =
+        private static readonly EnemyStrategy[] DefaultStrategies =
         {
-            EnnemyStrategy.Normal,
-            EnnemyStrategy.Careful,
-            EnnemyStrategy.Cowboy,
-            EnnemyStrategy.Camper
+            EnemyStrategy.Normal,
+            EnemyStrategy.Careful,
+            EnemyStrategy.Cowboy,
+            EnemyStrategy.Camper
         };
 
         [SerializeField] private GameObject ennemyPrefab;
@@ -49,7 +49,7 @@ namespace Playmode.Ennemy
 
         private void SpawnEnnemies()
         {
-            var stragegyProvider = new LoopingEnumerator<EnnemyStrategy>(DefaultStrategies);
+            var stragegyProvider = new LoopingEnumerator<EnemyStrategy>(DefaultStrategies);
             var colorProvider = new LoopingEnumerator<Color>(colors);
 
             for (var i = 0; i < transform.childCount; i++)
@@ -60,7 +60,7 @@ namespace Playmode.Ennemy
                 );
         }
 
-        private void SpawnEnnemy(Vector3 position, EnnemyStrategy strategy, Color color)
+        private void SpawnEnnemy(Vector3 position, EnemyStrategy strategy, Color color)
         {
             GameObject ennemy = Instantiate(ennemyPrefab, position, Quaternion.identity);
             ennemy.GetComponentInChildren<EnnemyController>()

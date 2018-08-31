@@ -11,8 +11,6 @@ namespace Playmode.Pickable
 {
     public class PickableSpawner : MonoBehaviour
     {
-        private static int COUNT = 0;
-
         [SerializeField] private GameObject medKitPrefab;
         [SerializeField] private GameObject uziPrefab;
         [SerializeField] private GameObject shotgunPrefab;
@@ -40,9 +38,7 @@ namespace Playmode.Pickable
 
         private void SpawnPickable(Vector3 position, GameObject prefab)
         {
-            var pickable = Instantiate(prefab, position, Quaternion.identity);
-            pickable.gameObject.name = pickable.gameObject.name + COUNT;
-            COUNT++;
+            Instantiate(prefab, position, Quaternion.identity);
         }
 
         private void SpawnRandomPickable()
@@ -90,10 +86,11 @@ namespace Playmode.Pickable
             StopAllCoroutines();
         }
 
-        private bool IsSpawnerIsEmpty(Vector3 position)
+        private static bool IsSpawnerIsEmpty(Vector3 position)
         {
-            GameObject[] pickables = GameObject.FindGameObjectsWithTag(Tags.Pickable);
-            foreach (GameObject currentPickable in pickables)
+            var pickables = GameObject.FindGameObjectsWithTag(Tags.Pickable);
+            
+            foreach (var currentPickable in pickables)
             {
                 if (currentPickable.transform.position == position)
                     return false;

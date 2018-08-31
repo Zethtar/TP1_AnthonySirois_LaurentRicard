@@ -29,5 +29,4 @@ namespace Playmode.Entity.Senses
 			other.GetComponent<PickableSightSensor>()?.LooseSightOf(pickable);
 		}
 	}
-
 }

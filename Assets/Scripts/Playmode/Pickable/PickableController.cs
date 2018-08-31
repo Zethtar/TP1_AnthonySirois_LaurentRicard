@@ -16,7 +16,7 @@ namespace Playmode.Pickable
         public event PickableDestroyEventHandler OnPickableDestroy;
 
         protected Destroyer destroyer;
-        private EnnemyCollisionSensor ennemyCollisionSensor;
+        private EnnemyCollisionSensor enemyCollisionSensor;
 
         public PickableCategory Category { get; protected set; }
 
@@ -28,27 +28,27 @@ namespace Playmode.Pickable
 
         private void OnEnable()
         {
-            ennemyCollisionSensor.OnCollision += OnCollision;
+            enemyCollisionSensor.OnCollision += OnCollision;
         }
 
         private void OnDisable()
         {
             NotifyPickableDestroy(this);
-            ennemyCollisionSensor.OnCollision -= OnCollision;
+            enemyCollisionSensor.OnCollision -= OnCollision;
         }
 
         private void InitializeComponents()
         {
             destroyer = GetComponent<RootDestroyer>();
-            ennemyCollisionSensor = transform.root.GetComponentInChildren<EnnemyCollisionSensor>();
+            enemyCollisionSensor = transform.root.GetComponentInChildren<EnnemyCollisionSensor>();
         }
 
         protected abstract void ValidateSerialisedFields();
-        protected abstract void OnCollision(EnnemyController ennemy);
+        protected abstract void OnCollision(EnnemyController enemy);
 
         private void NotifyPickableDestroy(PickableController pickable)
         {
-            if (OnPickableDestroy != null) OnPickableDestroy(pickable);
+            OnPickableDestroy?.Invoke(pickable);
         }
     }
 }

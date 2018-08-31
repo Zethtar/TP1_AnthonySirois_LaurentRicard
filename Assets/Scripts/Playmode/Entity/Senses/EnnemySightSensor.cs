@@ -8,22 +8,8 @@ namespace Playmode.Entity.Senses
     
     public class EnnemySightSensor : EnnemySensor
     {
-        private ICollection<EnnemyController> ennemiesInSight;
-
-        public event EnnemySightSensorEventHandler OnEnnemySeen;
-        public event EnnemySightSensorEventHandler OnEnnemySightLost;
-
-        public IEnumerable<EnnemyController> EnnemiesInSight => ennemiesInSight;
-
-        private void Awake()
-        {
-            InitializeComponent();
-        }
-
-        private void InitializeComponent()
-        {
-            ennemiesInSight = new HashSet<EnnemyController>();
-        }
+        public event EnnemySightSensorEventHandler OnEnemySeen;
+        public event EnnemySightSensorEventHandler OnEnemySightLost;
 
         public override void TriggerEnter(EnnemyController ennemy)
         {
@@ -37,26 +23,22 @@ namespace Playmode.Entity.Senses
 
         private void See(EnnemyController ennemy)
         {
-            ennemiesInSight.Add(ennemy);
-
             NotifyEnnemySeen(ennemy);
         }
 
         private void LooseSightOf(EnnemyController ennemy)
         {
-            ennemiesInSight.Remove(ennemy);
-
             NotifyEnnemySightLost(ennemy);
         }
 
         private void NotifyEnnemySeen(EnnemyController ennemy)
         {
-            if (OnEnnemySeen != null) OnEnnemySeen(ennemy);
+            OnEnemySeen?.Invoke(ennemy);
         }
 
         private void NotifyEnnemySightLost(EnnemyController ennemy)
         {
-            if (OnEnnemySightLost != null) OnEnnemySightLost(ennemy);
+            OnEnemySightLost?.Invoke(ennemy);
         }
     }
 }

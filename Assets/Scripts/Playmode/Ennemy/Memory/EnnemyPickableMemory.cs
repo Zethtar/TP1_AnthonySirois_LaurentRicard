@@ -12,7 +12,7 @@ namespace Playmode.Ennemy.Memory
 
         public IEnumerable<PickableController> PickablesInSight => pickablesInSight;
 
-        private PickableController pickableTarget = null;
+        private PickableController target;
 
         public EnnemyPickableMemory()
         {
@@ -21,7 +21,7 @@ namespace Playmode.Ennemy.Memory
 
         public PickableController GetPickableTarget()
         {
-            return pickableTarget;
+            return target;
         }
 
         public void Add(PickableController pickable)
@@ -36,11 +36,6 @@ namespace Playmode.Ennemy.Memory
             pickable.OnPickableDestroy -= OnPickableDestroy;
         }
 
-        public bool IsAPickableInSight()
-        {
-            return (pickablesInSight.Count > 0);
-        }
-
         public bool IsTypePickableInSight(PickableCategory type)
         {
             foreach (var pickable in pickablesInSight)
@@ -52,32 +47,7 @@ namespace Playmode.Ennemy.Memory
             return false;
         }
 
-        public PickableController GetNearestPickable(Vector3 selfPosition)
-        {
-            PickableController nearestPickable = null;
-
-            foreach (var pickable in pickablesInSight)
-            {
-                if (pickable != null)
-                {
-                    if (nearestPickable == null)
-                    {
-                        nearestPickable = pickable;
-                    }
-                    else if (base.IsVectorCloserThanOtherVector(
-                        selfPosition,
-                        pickable.transform.root.position,
-                        nearestPickable.transform.root.position))
-                    {
-                        nearestPickable = pickable;
-                    }
-                }
-            }
-
-            return nearestPickable;
-        }
-
-        public PickableController GetNearestTypedPickable(Vector3 selfPosition, PickableCategory type)
+        public void TargetNearestTypedPickable(Vector3 selfPosition, PickableCategory type)
         {
             PickableController nearestPickable = null;
 
@@ -102,14 +72,14 @@ namespace Playmode.Ennemy.Memory
                 }
             }
 
-            return nearestPickable;
+            target = nearestPickable;
         }
 
         private void OnPickableDestroy(PickableController pickable)
         {
-            if (pickable == pickableTarget)
+            if (pickable == target)
             {
-                pickableTarget = null;
+                target = null;
             }
 
             Remove(pickable);

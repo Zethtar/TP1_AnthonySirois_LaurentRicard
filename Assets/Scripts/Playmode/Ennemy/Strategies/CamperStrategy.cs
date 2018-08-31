@@ -21,13 +21,13 @@ namespace Playmode.Ennemy.Strategies
             Mover mover,
             HandController handController,
             Health health,
-            EnnemyEnnemyMemory ennemyEnnemyMemory,
-            EnnemyPickableMemory ennemyPickableMemory)
+            EnnemyEnnemyMemory enemyMemory,
+            EnnemyPickableMemory pickableMemory)
             : base(
                   mover,
                   handController,
-                  ennemyEnnemyMemory,
-                  ennemyPickableMemory)
+                  enemyMemory,
+                  pickableMemory)
         {
             this.health = health;
         }
@@ -37,22 +37,18 @@ namespace Playmode.Ennemy.Strategies
             if (emergencyMedkit == null)
             {
                 currentState = EnnemyState.MedkitSearching;
-                return;
             }
             else if (health.HealthPoints < HEALTH_THRESHOLD)
             {
                 currentState = EnnemyState.MedkitGathering;
-                return;
             }
-
-            base.LookingForEnemies();
-            if (ennemyTarget != null)
+            else
             {
-                currentState = EnnemyState.Attacking;
-                return;
+                base.LookingForEnemies();
+                
+                currentState = enemyMemory.GetEnemyTarget() != null 
+                    ? EnnemyState.Attacking : EnnemyState.Idle;
             }
-
-            currentState = EnnemyState.Idle;
         }
 
         public override void Act()
@@ -61,11 +57,11 @@ namespace Playmode.Ennemy.Strategies
 
             if (currentState == EnnemyState.MedkitGathering)
             {
-                base.GoTo(emergencyMedkit.transform.root.position);
+                base.MoveTowards(emergencyMedkit.transform.root.position);
             }
             else if (currentState == EnnemyState.Attacking)
             {
-                AttackEnemy(ennemyTarget);
+                AttackEnemy(enemyMemory.GetEnemyTarget());
             }
             else if (currentState == EnnemyState.Idle)
             {
@@ -81,12 +77,12 @@ namespace Playmode.Ennemy.Strategies
             }
             else if (currentState == EnnemyState.MedkitSearching)
             {
-                if (ennemyPickableMemory.IsTypePickableInSight(PickableCategory.Util))
+                if (pickableMemory.IsTypePickableInSight(PickableCategory.Util))
                 {
-                    emergencyMedkit =
-                        ennemyPickableMemory.GetNearestTypedPickable(
-                            mover.transform.root.position,
-                            PickableCategory.Util);
+                    pickableMemory.TargetNearestTypedPickable(
+                         mover.transform.root.position,
+                         PickableCategory.Util);
+                    emergencyMedkit = pickableMemory.GetPickableTarget();
                 }
                 else
                 {

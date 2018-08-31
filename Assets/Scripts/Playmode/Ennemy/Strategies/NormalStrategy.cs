@@ -11,20 +11,20 @@ namespace Playmode.Ennemy.Strategies
         public NormalStrategy(
             Mover mover,
             HandController handController,
-            EnnemyEnnemyMemory ennemyEnnemyMemory,
-            EnnemyPickableMemory ennemyPickableMemory)
+            EnnemyEnnemyMemory enemyMemory,
+            EnnemyPickableMemory pickableMemory)
             : base(
                   mover,
                   handController,
-                  ennemyEnnemyMemory,
-                  ennemyPickableMemory)
+                  enemyMemory,
+                  pickableMemory)
         {
         }
 
         protected override void Think()
         {
             base.LookingForEnemies();
-            if (ennemyTarget != null)
+            if (enemyMemory.GetEnemyTarget() != null)
             {
                 currentState = EnnemyState.Attacking;
                 return;
@@ -39,7 +39,7 @@ namespace Playmode.Ennemy.Strategies
             
             if (currentState == EnnemyState.Attacking)
             {
-                ChargeTheEnnemy(ennemyTarget);
+                ChargeTheEnnemy(enemyMemory.GetEnemyTarget());
             }
             else if (currentState == EnnemyState.Roaming)
             {

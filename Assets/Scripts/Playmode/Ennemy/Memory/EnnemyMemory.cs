@@ -3,10 +3,9 @@ using System.Collections;
 
 namespace Playmode.Ennemy.Memory
 {
-    public class EnnemyMemory
+    public abstract class EnnemyMemory
     {
-
-        public EnnemyMemory()
+        protected EnnemyMemory()
         {
 
         }

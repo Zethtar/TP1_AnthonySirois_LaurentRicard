@@ -23,9 +23,9 @@ namespace Playmode.Pickable
                 throw new ArgumentException("Medkit can't do damage.");
         }
 
-        protected override void OnCollision(EnnemyController ennemy)
+        protected override void OnCollision(EnnemyController enemy)
         {
-            ennemy.Heal(healthPointRestored);
+            enemy.Heal(healthPointRestored);
             
             destroyer.Destroy();
         }
