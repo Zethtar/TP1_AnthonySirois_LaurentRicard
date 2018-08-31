@@ -145,6 +145,7 @@ namespace Playmode.Ennemy
                 default:
                     typeSign.GetComponent<SpriteRenderer>().sprite = normalSprite;
                     strategy = new NormalStrategy(mover, handController, ennemyEnnemyMemory, ennemyPickableMemory);
+                    health.Heal(50);
                     break;
             }
             //strategy = new CarefulStrategy(mover, handController, health, ennemyEnnemyMemory, ennemyPickableMemory);

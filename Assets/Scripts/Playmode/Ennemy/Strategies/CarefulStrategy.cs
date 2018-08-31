@@ -9,7 +9,7 @@ namespace Playmode.Ennemy.Strategies
 {
     public class CarefulStrategy : Strategy
     {
-        private const float SAFE_DISTANCE = 6;
+        private const float SAFE_DISTANCE = 9;
         private const float HEALTH_THRESHOLD = 50;
         private readonly Health health;
         
