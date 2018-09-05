@@ -47,7 +47,7 @@ namespace Playmode.Enemy.Strategies
 
                 currentState = enemyMemory.GetEnemyTarget() != null
                     ? EnnemyState.Attacking
-                    : EnnemyState.Idle;
+                    : EnnemyState.Camping;
             }
         }
 
@@ -63,27 +63,13 @@ namespace Playmode.Enemy.Strategies
             {
                 AttackEnemy(enemyMemory.GetEnemyTarget());
             }
-            else if (currentState == EnnemyState.Idle)
+            else if (currentState == EnnemyState.Camping)
             {
-                if (Vector3.Distance(mover.transform.root.position, emergencyMedkit.transform.root.position) >
-                    MEDKIT_DISTANCE)
-                    mover.MoveToTarget(emergencyMedkit.transform.root.position);
-                else
-                    SweepingAroundClockwise();
+                Camping();
             }
             else if (currentState == EnnemyState.MedkitSearching)
             {
-                if (pickableMemory.IsTypePickableInSight(PickableCategory.Util))
-                {
-                    pickableMemory.TargetNearestTypedPickable(
-                        mover.transform.root.position,
-                        PickableCategory.Util);
-                    emergencyMedkit = pickableMemory.GetPickableTarget();
-                }
-                else
-                {
-                    Roaming();
-                }
+                MedkitSearching();
             }
             else if (currentState == EnnemyState.Roaming)
             {
@@ -96,6 +82,28 @@ namespace Playmode.Enemy.Strategies
             mover.RotateToTarget(enemyTarget.transform.root.position);
 
             handController.Use();
+        }
+
+        private void MedkitSearching()
+        {
+            if (pickableMemory.IsTypePickableInSight(PickableCategory.Util))
+            {
+                LookingForTypedPickable(PickableCategory.Util);
+                emergencyMedkit = pickableMemory.GetPickableTarget();
+            }
+            else
+            {
+                Roaming();
+            }
+        }
+
+        private void Camping()
+        {
+            if (Vector3.Distance(mover.transform.root.position, emergencyMedkit.transform.root.position) >
+                    MEDKIT_DISTANCE)
+                mover.MoveToTarget(emergencyMedkit.transform.root.position);
+            else
+                SweepingAroundClockwise();
         }
     }
 }
