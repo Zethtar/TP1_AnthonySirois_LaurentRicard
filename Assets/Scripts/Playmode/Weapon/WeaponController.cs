@@ -7,13 +7,14 @@ namespace Playmode.Weapon
 {
     public class WeaponController : MonoBehaviour
     {
-        protected int bulletDamage;
         [Header("Behaviour")] [SerializeField] protected GameObject bulletPrefab;
         [SerializeField] protected int bulletsBaseDamage = 10;
         [SerializeField] protected float fireDelayInSeconds = 1f;
-        protected float lastTimeShotInSeconds;
         [SerializeField] protected WeaponType weaponType;
-
+        
+        protected int bulletDamage;
+        protected float lastTimeShotInSeconds;
+        
         public WeaponType WeaponType => weaponType;
         protected bool CanShoot => Time.time - lastTimeShotInSeconds > fireDelayInSeconds;
 

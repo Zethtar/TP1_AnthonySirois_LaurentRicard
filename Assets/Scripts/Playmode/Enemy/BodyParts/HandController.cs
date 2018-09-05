@@ -57,6 +57,7 @@ namespace Playmode.Enemy.BodyParts
 
         public void AimTowards(Vector3 target)
         {
+            mover.RotateToTarget(target);
         }
 
         public void Use()

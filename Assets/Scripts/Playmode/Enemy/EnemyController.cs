@@ -15,34 +15,33 @@ namespace Playmode.Enemy
 
     public class EnemyController : MonoBehaviour
     {
-        [Header("Body Parts")] [SerializeField]
-        private GameObject body;
-
+        [Header("Body Parts")] 
+        [SerializeField] private GameObject body;
+        [SerializeField] private GameObject hand;
+        [SerializeField] private GameObject sight;
+        [SerializeField] private GameObject typeSign;
+        
+        [Header("Type Images")] 
+        [SerializeField] private Sprite normalSprite;
         [SerializeField] private Sprite camperSprite;
-
         [SerializeField] private Sprite carefulSprite;
         [SerializeField] private Sprite cowboySprite;
+        
+        [Header("Behaviour")]
+        [SerializeField] private GameObject startingWeaponPrefab;
+        
         private Destroyer destroyer;
-
+        private Mover mover;
+        private HandController handController;
+        private Health health;
+        
+        private IEnnemyStrategy strategy;
         private EnemyEnemyMemory enemyMemory;
         private EnemySightSensor enemySightSensor;
-
-        [SerializeField] private GameObject hand;
-        private HandController handController;
-
-        private Health health;
-        private HitSensor hitSensor;
-        private Mover mover;
-
-        [Header("Type Images")] [SerializeField]
-        private Sprite normalSprite;
-
         private EnemyPickableMemory pickableMemory;
         private PickableSightSensor pickableSightSensor;
-        [SerializeField] private GameObject sight;
-        [Header("Behaviour")] [SerializeField] private GameObject startingWeaponPrefab;
-        private IEnnemyStrategy strategy;
-        [SerializeField] private GameObject typeSign;
+        
+        private HitSensor hitSensor;
 
         public event EnnemyDeathEventHandler OnOtherEnemyDeath;
 
@@ -151,7 +150,7 @@ namespace Playmode.Enemy
                 default:
                     typeSign.GetComponent<SpriteRenderer>().sprite = normalSprite;
                     strategy = new NormalStrategy(mover, handController, enemyMemory, pickableMemory);
-                    health.Heal(50);
+                    health.Heal(200);
                     break;
             }
         }

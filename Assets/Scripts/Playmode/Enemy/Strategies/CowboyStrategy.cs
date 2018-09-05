@@ -42,7 +42,14 @@ namespace Playmode.Enemy.Strategies
             Think();
 
             if (currentState == EnnemyState.WeaponGathering)
+            {
                 MoveTowards(pickableMemory.GetPickableTarget().transform.root.position);
+                if (enemyMemory.IsAnEnemyInSight())
+                {
+                    handController.Use();
+                }
+                    
+            }
             else if (currentState == EnnemyState.Attacking)
                 ChargeTheEnnemy(enemyMemory.GetEnemyTarget().transform.root.position);
             else if (currentState == EnnemyState.Roaming) Roaming();

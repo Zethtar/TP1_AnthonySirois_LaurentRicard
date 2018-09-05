@@ -6,7 +6,7 @@ namespace Playmode.Entity.Senses
     public class HitStimulus : MonoBehaviour
     {
         [Header("Behaviour")] [SerializeField] private int hitPoints = 10;
-
+        
         public int HitPoints
         {
             set
@@ -28,7 +28,12 @@ namespace Playmode.Entity.Senses
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            other.GetComponent<HitSensor>()?.Hit(hitPoints);
+            if (other.GetComponent<HitSensor>() != null)
+            {
+                other.GetComponent<HitSensor>().Hit(hitPoints);
+                
+                Destroy(gameObject);   
+            }
         }
     }
 }
