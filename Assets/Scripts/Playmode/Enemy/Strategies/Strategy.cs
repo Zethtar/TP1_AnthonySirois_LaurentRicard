@@ -9,19 +9,20 @@ namespace Playmode.Enemy.Strategies
     public abstract class Strategy : IEnnemyStrategy
     {
         protected const float MIN_DISTANCE_BETWEEN_ENEMIES = 3f;
-        protected readonly Vector3 downRight;
-        protected readonly HandController handController;
-
+        
         protected readonly Mover mover;
-
-        protected readonly Vector3 topLeft;
+        protected readonly HandController handController;
+        
         protected EnnemyState currentState;
         protected EnemyEnemyMemory enemyMemory;
         protected EnemyPickableMemory pickableMemory;
+        
+        private readonly Vector3 downRight;
+        private readonly Vector3 topLeft;
 
         protected Vector3 roamingTarget;
 
-        public Strategy(
+        protected Strategy(
             Mover mover,
             HandController handController,
             EnemyEnemyMemory enemyMemory,
@@ -32,11 +33,11 @@ namespace Playmode.Enemy.Strategies
             this.enemyMemory = enemyMemory;
             this.pickableMemory = pickableMemory;
 
-            roamingTarget = GetRandomLocation();
-
             topLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
             downRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
+            roamingTarget = GetRandomLocation();
+            
             currentState = EnnemyState.Roaming;
         }
 
